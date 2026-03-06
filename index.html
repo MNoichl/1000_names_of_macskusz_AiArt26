@@ -1,0 +1,781 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Thousand Names of Macskusz</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --black: #0a0a0a;
+      --white: #f0ede8;
+      --gray: #888;
+      --gray-dark: #333;
+      --gray-light: #bbb;
+      --margin: clamp(2rem, 12vw, 12rem);
+      --font-serif: 'Cormorant Garamond', Georgia, serif;
+      --font-mono: 'Space Mono', 'Courier New', monospace;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: var(--black);
+      color: var(--white);
+      font-family: var(--font-serif);
+      font-weight: 300;
+      line-height: 1.7;
+      font-size: clamp(1rem, 1.2vw, 1.25rem);
+      overflow-x: hidden;
+    }
+
+    ::selection {
+      background: var(--white);
+      color: var(--black);
+    }
+
+    /* ---- NAV ---- */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      padding: 1.5rem var(--margin);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      mix-blend-mode: difference;
+    }
+
+    nav a {
+      color: var(--white);
+      text-decoration: none;
+      transition: opacity 0.3s;
+    }
+
+    nav a:hover {
+      opacity: 0.5;
+    }
+
+    nav .nav-links {
+      display: flex;
+      gap: 2rem;
+    }
+
+    /* ---- HERO ---- */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      background: var(--black);
+    }
+
+    .hero-media {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+    }
+
+    .hero-media video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .hero-media .hero-poster {
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: var(--black);
+    }
+
+    .hero-media .hero-poster img {
+      height: 80%;
+      width: auto;
+      max-width: 90%;
+      object-fit: contain;
+    }
+
+    .hero-media .hero-poster.fade-out {
+      opacity: 0;
+      transition: opacity 1s ease;
+    }
+
+    .hero-media .hero-blackout {
+      position: absolute;
+      inset: 0;
+      background: var(--black);
+      z-index: 3;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 1.5s ease;
+    }
+
+    .hero-media .hero-blackout.active {
+      opacity: 1;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 4;
+      padding: 6rem var(--margin);
+      opacity: 0;
+      transition: opacity 1.5s ease;
+    }
+
+    .hero-content.visible {
+      opacity: 1;
+    }
+
+    .hero h1 {
+      font-family: var(--font-serif);
+      font-weight: 300;
+      font-size: clamp(3rem, 8vw, 8rem);
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+      margin-bottom: 2rem;
+    }
+
+    .hero h1 em {
+      font-style: italic;
+      font-weight: 300;
+    }
+
+    .hero .subtitle {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gray);
+      margin-bottom: 3rem;
+    }
+
+    .hero .scroll-hint {
+      position: absolute;
+      bottom: 3rem;
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gray-dark);
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 0.3; }
+      50% { opacity: 0.8; }
+    }
+
+    /* ---- SECTIONS ---- */
+    section {
+      padding: 8rem var(--margin);
+      position: relative;
+    }
+
+    .section-number {
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--gray-dark);
+      margin-bottom: 3rem;
+      display: block;
+    }
+
+    h2 {
+      font-family: var(--font-serif);
+      font-weight: 300;
+      font-size: clamp(2rem, 4vw, 4rem);
+      line-height: 1.15;
+      margin-bottom: 2rem;
+      max-width: 20ch;
+    }
+
+    h2 em {
+      font-style: italic;
+    }
+
+    .text-block {
+      max-width: 38rem;
+      color: var(--gray-light);
+      margin-bottom: 4rem;
+    }
+
+    .text-block p + p {
+      margin-top: 1.5rem;
+    }
+
+    /* ---- IMAGES ---- */
+    .single-image {
+      width: 100%;
+      max-width: 600px;
+      margin: 0 auto;
+      display: block;
+    }
+
+    .single-image img {
+      width: 100%;
+      display: block;
+      filter: grayscale(100%);
+      transition: filter 0.8s ease;
+    }
+
+    .single-image:hover img {
+      filter: grayscale(0%);
+    }
+
+    .image-caption {
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.1em;
+      color: var(--gray-dark);
+      margin-top: 1rem;
+      text-align: center;
+    }
+
+    /* Grid layouts */
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .grid-4 {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .grid-2 img, .grid-3 img, .grid-4 img {
+      width: 100%;
+      aspect-ratio: 1;
+      object-fit: cover;
+      display: block;
+      filter: grayscale(100%);
+      transition: filter 0.6s ease;
+    }
+
+    .grid-2 img:hover, .grid-3 img:hover, .grid-4 img:hover {
+      filter: grayscale(0%);
+    }
+
+    /* Molties filmstrip */
+    .filmstrip-container {
+      overflow: hidden;
+      margin: 4rem 0;
+      position: relative;
+    }
+
+    .filmstrip-container::before,
+    .filmstrip-container::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 8rem;
+      z-index: 2;
+      pointer-events: none;
+    }
+
+    .filmstrip-container::before {
+      left: 0;
+      background: linear-gradient(to right, var(--black), transparent);
+    }
+
+    .filmstrip-container::after {
+      right: 0;
+      background: linear-gradient(to left, var(--black), transparent);
+    }
+
+    .filmstrip {
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+      animation: scroll-filmstrip 45s linear infinite;
+      animation-play-state: paused;
+      width: max-content;
+    }
+
+    .filmstrip.running {
+      animation-play-state: running;
+    }
+
+    .filmstrip img {
+      height: 220px;
+      width: auto;
+      display: block;
+      flex-shrink: 0;
+    }
+
+    .filmstrip .separator {
+      flex-shrink: 0;
+      width: 2px;
+      height: 220px;
+      margin: 0 2rem;
+      background: linear-gradient(to bottom, transparent, var(--gray-dark), transparent);
+    }
+
+    @keyframes scroll-filmstrip {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    /* AI gallery */
+    .masonry {
+      columns: 3;
+      column-gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .masonry img {
+      width: 100%;
+      display: block;
+      margin-bottom: 1.5rem;
+      filter: grayscale(100%);
+      transition: filter 0.6s ease;
+    }
+
+    .masonry img:hover {
+      filter: grayscale(0%);
+    }
+
+    /* Exhibition section */
+    .exhibit-videos {
+      display: flex;
+      flex-direction: column;
+      gap: 4rem;
+      margin-bottom: 2rem;
+    }
+
+    .video-wrap {
+      position: relative;
+      width: 100%;
+      overflow: hidden;
+    }
+
+    .video-wrap video {
+      width: 100%;
+      display: block;
+    }
+
+    .video-wrap .video-poster {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      height: 100%;
+      width: auto;
+      z-index: 2;
+      opacity: 1;
+      transition: opacity 1.2s ease;
+      pointer-events: none;
+    }
+
+    .video-wrap .video-poster.fade-out {
+      opacity: 0;
+      visibility: hidden;
+    }
+
+    /* ---- DIVIDERS ---- */
+    .divider {
+      width: 1px;
+      height: 8rem;
+      background: linear-gradient(to bottom, transparent, var(--gray-dark), transparent);
+      margin: 0 auto;
+    }
+
+    /* ---- FOOTER ---- */
+    footer {
+      padding: 6rem var(--margin);
+      text-align: center;
+    }
+
+    footer .colophon {
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gray-dark);
+      margin-top: 2rem;
+    }
+
+    /* ---- FADE IN ANIMATIONS ---- */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(2rem);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ---- RESPONSIVE ---- */
+    @media (max-width: 768px) {
+      :root {
+        --margin: 1.5rem;
+      }
+
+      .grid-3 {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .grid-4 {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .masonry {
+        columns: 2;
+      }
+
+      nav .nav-links {
+        display: none;
+      }
+
+      .filmstrip img {
+        height: 150px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .grid-2 {
+        grid-template-columns: 1fr;
+      }
+
+      .masonry {
+        columns: 1;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a href="#top">Macskusz</a>
+    <div class="nav-links">
+      <a href="#origin">Origin</a>
+      <a href="#book">Book</a>
+      <a href="#names">Names</a>
+      <a href="#digital">Digital</a>
+      <a href="#exhibition">Exhibition</a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero" id="top">
+    <div class="hero-media">
+      <div class="hero-poster" id="heroPoster">
+        <img src="assets/img6/hero_poster.png" alt="">
+      </div>
+      <video id="heroVideo" src="assets/img6/video_2.mp4" muted playsinline preload="auto"></video>
+      <div class="hero-blackout" id="heroBlackout"></div>
+    </div>
+    <div class="hero-content" id="heroContent">
+      <h1>The Thousand<br>Names of<br><em>Macskusz</em></h1>
+      <p class="subtitle">An Exhibition Proposal</p>
+      <span class="scroll-hint">Scroll</span>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- SECTION 1 — ORIGIN -->
+  <section id="origin">
+    <span class="section-number fade-in">I &mdash; Origin</span>
+    <h2 class="fade-in">The First <em>Macskusz</em></h2>
+    <div class="text-block fade-in">
+      <p>The original Macskusz is a nickname that Vero invented for Max in 2021. The name combines the Hungarian word <em>macska</em> (cat) with the Latin suffix <em>-us</em>.</p>
+      <p>The first illustration of Macskusz was created later that same year, around All Saints' Day, as a paper cutout. At the time, Vero had developed a strong interest in the Mexican craft tradition of <em>papel picado</em>.</p>
+    </div>
+    <div class="single-image fade-in">
+      <img src="assets/img1/1.png" alt="The original Macskusz paper cutout" loading="lazy">
+      <p class="image-caption">The original Macskusz, 2021</p>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- SECTION 2 — THE BOOK -->
+  <section id="book">
+    <span class="section-number fade-in">II &mdash; The Book</span>
+    <h2 class="fade-in">A Diary of<br><em>Paper & Scissors</em></h2>
+    <div class="text-block fade-in">
+      <p>This first Macskusz was followed by a series of cutouts made from magazine scraps, which were pasted into a specially made book that functioned much like a diary.</p>
+    </div>
+    <div class="grid-2 fade-in">
+      <img src="assets/img2/2.1.jpg" alt="Book page 1" loading="lazy">
+      <img src="assets/img2/2.2.jpg" alt="Book page 2" loading="lazy">
+      <img src="assets/img2/2.3.jpg" alt="Book page 3" loading="lazy">
+      <img src="assets/img2/2.4.jpg" alt="Book page 4" loading="lazy">
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- SECTION 3 — THE NAMES -->
+  <section id="names">
+    <span class="section-number fade-in">III &mdash; The Names</span>
+    <h2 class="fade-in">Avatars &<br><em>Manifestations</em></h2>
+    <div class="text-block fade-in">
+      <p>The individual Macskusz avatars, or "names," reflect different aspects of Max and Vero's relationship: shared experiences, arguments, and images drawn from the media they consumed together.</p>
+      <p>Over time, the avatars quickly drifted away from the original feline form. In some cases they are no longer creatures at all, but resemble natural forces or landscapes.</p>
+    </div>
+    <div class="grid-3 fade-in">
+      <img src="assets/img3/3.1.png" alt="Macskusz avatar 1" loading="lazy">
+      <img src="assets/img3/3.3.png" alt="Macskusz avatar 3" loading="lazy">
+      <img src="assets/img3/3.4.png" alt="Macskusz avatar 4" loading="lazy">
+      <img src="assets/img3/3.5.png" alt="Macskusz avatar 5" loading="lazy">
+      <img src="assets/img3/3.6.png" alt="Macskusz avatar 6" loading="lazy">
+      <img src="assets/img3/3.7.png" alt="Macskusz avatar 7" loading="lazy">
+      <img src="assets/img3/3.9.png" alt="Macskusz avatar 9" loading="lazy">
+      <img src="assets/img3/3.10.png" alt="Macskusz avatar 10" loading="lazy">
+      <img src="assets/img3/3.11.png" alt="Macskusz avatar 11" loading="lazy">
+    </div>
+    <p class="image-caption fade-in">Selected paper-cut avatars from the book series, 2021</p>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- SECTION 4 — MOLTIES (DIGITAL REVIVAL) -->
+  <section id="digital">
+    <span class="section-number fade-in">IV &mdash; Digital Revival</span>
+    <h2 class="fade-in"><em>Macskuszisation</em><br>of the World</h2>
+    <div class="text-block fade-in">
+      <p>The paper-cut series was still limited to the pages of the book. Although the project concluded with image no. 76 in the same year, it was revived in 2025 when Max proposed recreating the process of the "Macskuszisation" of the world using digital methods.</p>
+    </div>
+    <div class="filmstrip-container fade-in">
+      <div class="filmstrip" id="filmstrip">
+        <img src="assets/img4/molty_01.jpg" alt="Molty 1" loading="lazy">
+        <img src="assets/img4/molty_02.jpg" alt="Molty 2" loading="lazy">
+        <img src="assets/img4/molty_03.jpg" alt="Molty 3" loading="lazy">
+        <img src="assets/img4/molty_04.jpg" alt="Molty 4" loading="lazy">
+        <img src="assets/img4/molty_05.jpg" alt="Molty 5" loading="lazy">
+        <img src="assets/img4/molty_06.jpg" alt="Molty 6" loading="lazy">
+        <img src="assets/img4/molty_08.jpg" alt="Molty 8" loading="lazy">
+        <img src="assets/img4/molty_09.jpg" alt="Molty 9" loading="lazy">
+        <img src="assets/img4/molty_12.jpg" alt="Molty 12" loading="lazy">
+        <img src="assets/img4/molty_13.jpg" alt="Molty 13" loading="lazy">
+        <img src="assets/img4/molty_14.jpg" alt="Molty 14" loading="lazy">
+        <img src="assets/img4/molty_16.jpg" alt="Molty 16" loading="lazy">
+        <img src="assets/img4/molty_17.jpg" alt="Molty 17" loading="lazy">
+        <img src="assets/img4/molty_18.jpg" alt="Molty 18" loading="lazy">
+        <img src="assets/img4/molty_19.jpg" alt="Molty 19" loading="lazy">
+        <span class="separator"></span>
+        <!-- duplicate set for seamless loop -->
+        <img src="assets/img4/molty_01.jpg" alt="" loading="lazy">
+        <img src="assets/img4/molty_02.jpg" alt="" loading="lazy">
+        <img src="assets/img4/molty_03.jpg" alt="" loading="lazy">
+        <img src="assets/img4/molty_04.jpg" alt="" loading="lazy">
+        <img src="assets/img4/molty_05.jpg" alt="" loading="lazy">
+        <img src="assets/img4/molty_06.jpg" alt="" loading="lazy">
+        <img src="assets/img4/molty_08.jpg" alt="" loading="lazy">
+        <img src="assets/img4/molty_09.jpg" alt="" loading="lazy">
+        <img src="assets/img4/molty_12.jpg" alt="" loading="lazy">
+        <img src="assets/img4/molty_13.jpg" alt="" loading="lazy">
+        <img src="assets/img4/molty_14.jpg" alt="" loading="lazy">
+        <img src="assets/img4/molty_16.jpg" alt="" loading="lazy">
+        <img src="assets/img4/molty_17.jpg" alt="" loading="lazy">
+        <img src="assets/img4/molty_18.jpg" alt="" loading="lazy">
+        <img src="assets/img4/molty_19.jpg" alt="" loading="lazy">
+        <span class="separator"></span>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- SECTION 5 — GENERATED AVATARS -->
+  <section>
+    <span class="section-number fade-in">V &mdash; Generated Avatars</span>
+    <h2 class="fade-in">A New <em>Name</em><br>Every Day</h2>
+    <div class="text-block fade-in">
+      <p>The work consists of a series of images automatically generated each day. With every update, the images present the current daily version of an avatar of Macskusz &mdash; a mythical being that emerged from the love language between Max and Vero and gradually took on a life of its own.</p>
+      <p>It functions both as a mascot and as a form of documentation of their relationship, attempting to capture the experiences and moods of each day by allowing them to manifest, day after day, in a new entity.</p>
+    </div>
+    <div class="masonry fade-in">
+      <img src="assets/img5/gen_02.png" alt="Generated avatar" loading="lazy">
+      <img src="assets/img5/gen_04.png" alt="Generated avatar" loading="lazy">
+      <img src="assets/img5/gen_06.png" alt="Generated avatar" loading="lazy">
+      <img src="assets/img5/gen_07.png" alt="Generated avatar" loading="lazy">
+      <img src="assets/img5/gen_08.png" alt="Generated avatar" loading="lazy">
+      <img src="assets/img5/gen_09.png" alt="Generated avatar" loading="lazy">
+      <img src="assets/img5/gen_12.png" alt="Generated avatar" loading="lazy">
+      <img src="assets/img5/gen_13.jpeg" alt="Generated avatar" loading="lazy">
+      <img src="assets/img5/gen_15.jpeg" alt="Generated avatar" loading="lazy">
+      <img src="assets/img5/gen_16.png" alt="Generated avatar" loading="lazy">
+      <img src="assets/img5/gen_19.png" alt="Generated avatar" loading="lazy">
+      <img src="assets/img5/gen_21.png" alt="Generated avatar" loading="lazy">
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- SECTION 6 — EXHIBITION -->
+  <section id="exhibition">
+    <span class="section-number fade-in">VI &mdash; The Exhibition</span>
+    <h2 class="fade-in">Exhibition<br><em>Proposal</em></h2>
+    <div class="text-block fade-in">
+      <p>For the exhibition, we propose presenting a mini-series of three Macskusz avatars. These avatars are newly generated each day and appear at noon (12:00 PM in Denver).</p>
+      <p>For the presentation, we require a screen displaying our website, where the current image will be shown.</p>
+    </div>
+    <div class="exhibit-videos fade-in">
+      <div class="video-wrap">
+        <img class="video-poster" src="assets/img6/6.3.png" alt="">
+        <video class="delayed-video" src="assets/img6/video_1.mp4" loop muted playsinline preload="auto"></video>
+      </div>
+      <div class="video-wrap">
+        <img class="video-poster" src="assets/img6/6.1.png" alt="">
+        <video class="delayed-video" src="assets/img6/video_2.mp4" loop muted playsinline preload="auto"></video>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- FOOTER -->
+  <footer>
+    <h2 class="fade-in"><em>Macskusz</em></h2>
+    <p class="colophon fade-in">Max & Vero &mdash; Denver, 2025</p>
+  </footer>
+
+  <script>
+    // Hero landing sequence: PNG → video → blackout → title
+    (function() {
+      const poster = document.getElementById('heroPoster');
+      const video = document.getElementById('heroVideo');
+      const blackout = document.getElementById('heroBlackout');
+      const content = document.getElementById('heroContent');
+
+      // Show PNG for 1.5s, then fade it and play video
+      setTimeout(() => {
+        poster.classList.add('fade-out');
+        video.play();
+      }, 1500);
+
+      // When video ends, fade to black then show title
+      video.addEventListener('ended', () => {
+        blackout.classList.add('active');
+        setTimeout(() => {
+          content.classList.add('visible');
+        }, 1200);
+      });
+    })();
+
+    // Intersection Observer for fade-in animations
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    });
+
+    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+    // Show poster PNG for 4s, then fade it out and start the video
+    function startVideoSequence(wrap) {
+      const video = wrap.querySelector('video');
+      const poster = wrap.querySelector('.video-poster');
+
+      video.currentTime = 0;
+      poster.classList.remove('fade-out');
+      poster.style.opacity = '1';
+
+      wrap._timeout = setTimeout(() => {
+        poster.classList.add('fade-out');
+        const playPromise = video.play();
+        if (playPromise) {
+          playPromise.catch(() => {
+            // retry once after a short delay
+            setTimeout(() => video.play(), 200);
+          });
+        }
+      }, 4000);
+    }
+
+    function resetVideoSequence(wrap) {
+      const video = wrap.querySelector('video');
+      const poster = wrap.querySelector('.video-poster');
+      clearTimeout(wrap._timeout);
+      delete wrap.dataset.active;
+      video.pause();
+      video.currentTime = 0;
+      poster.classList.remove('fade-out');
+      poster.style.opacity = '1';
+    }
+
+    const videoObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        const wrap = entry.target;
+        if (entry.isIntersecting && !wrap.dataset.active) {
+          wrap.dataset.active = '1';
+          startVideoSequence(wrap);
+        } else if (!entry.isIntersecting) {
+          resetVideoSequence(wrap);
+        }
+      });
+    }, { threshold: 0.3 });
+
+    document.querySelectorAll('.video-wrap').forEach(w => videoObserver.observe(w));
+
+    // Start filmstrip when scrolled into view
+    const filmstrip = document.getElementById('filmstrip');
+    if (filmstrip) {
+      const filmstripObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            filmstrip.classList.add('running');
+          }
+        });
+      }, { threshold: 0.1 });
+      filmstripObserver.observe(filmstrip.parentElement);
+
+      filmstrip.addEventListener('mouseenter', () => {
+        filmstrip.style.animationPlayState = 'paused';
+      });
+      filmstrip.addEventListener('mouseleave', () => {
+        filmstrip.style.animationPlayState = '';
+      });
+    }
+  </script>
+
+</body>
+</html>
