@@ -1198,7 +1198,7 @@
         waitForVideoReady(video, () => {
           poster.classList.add('fade-out');
           playVideo(video);
-        }, { requireFull: false, timeout: 12000 });
+        }, { requireFull: true, timeout: 20000 });
       }
 
       function scheduleHeroVideo(delay) {
