@@ -10,7 +10,8 @@
 #      The hero poster gets a smaller baseline preview to avoid partial-image flashes
 #   3. Creates tiny blurred thumbnails (<name>.thumb.jpg) for progressive loading
 #   4. Re-encodes videos with H.264 + faststart for browser playback
-#      The hero clip keeps a higher-resolution profile than the section loops
+#      The hero clip keeps a higher-resolution profile than the section loops,
+#      while the remaining videos use a less aggressive CRF than before
 #   5. Skips unchanged files on reruns by storing ignored hash sidecars
 #
 # Safe to re-run. Add new files to assets/ and run again.
@@ -29,7 +30,7 @@ THUMB_MAX_DIM=96
 THUMB_QUALITY=38
 VIDEO_MAX_WIDTH=1600
 VIDEO_MAX_HEIGHT=900
-VIDEO_CRF=25
+VIDEO_CRF=23
 VIDEO_PRESET=slow
 HERO_VIDEO_MAX_WIDTH=1920
 HERO_VIDEO_MAX_HEIGHT=1080
@@ -211,7 +212,7 @@ optimize_video() {
   size_before="$(file_size_bytes "$src")"
   log "Optimizing video: ${src#./}"
 
-  ffmpeg -y -i "$src" \
+  ffmpeg -nostdin -y -i "$src" \
     -c:v libx264 \
     -crf "$video_crf" \
     -preset "$VIDEO_PRESET" \
@@ -227,18 +228,22 @@ optimize_video() {
   log "  -> $(file_size_mb "$size_after")MB (was $(file_size_mb "$size_before")MB)"
 }
 
-find . -type f \
-  \( -iname "*.png" -o -iname "*.jpg" -o -iname "*.jpeg" -o -iname "*.webp" -o -iname "*.tif" -o -iname "*.tiff" -o -iname "*.avif" \) \
-  ! -name "*.small.jpg" \
-  ! -name "*.thumb.jpg" \
-  ! -name "*.asset.sha256" \
-  -print0 | sort -z | while IFS= read -r -d '' file; do
-    optimize_image "$file"
-  done
+while IFS= read -r -d '' file; do
+  optimize_image "$file"
+done < <(
+  find . -type f \
+    \( -iname "*.png" -o -iname "*.jpg" -o -iname "*.jpeg" -o -iname "*.webp" -o -iname "*.tif" -o -iname "*.tiff" -o -iname "*.avif" \) \
+    ! -name "*.small.jpg" \
+    ! -name "*.thumb.jpg" \
+    ! -name "*.asset.sha256" \
+    -print0 | sort -z
+)
 
-find . -type f -iname "*.mp4" -print0 | sort -z | while IFS= read -r -d '' file; do
+while IFS= read -r -d '' file; do
   optimize_video "$file"
-done
+done < <(
+  find . -type f -iname "*.mp4" -print0 | sort -z
+)
 
 echo ""
 log "Done. Asset summary:"
