@@ -9,9 +9,9 @@
 #   2. Creates crisp intermediate JPEGs (<name>.small.jpg) for quick display
 #      The hero poster gets a smaller baseline preview to avoid partial-image flashes
 #   3. Creates tiny blurred thumbnails (<name>.thumb.jpg) for progressive loading
-#   4. Re-encodes videos with H.264 + faststart for browser playback
-#      The hero clip keeps a higher-resolution profile than the section loops,
-#      while the remaining videos use a less aggressive CRF than before
+#   4. Rebuilds videos for browser playback
+#      The hero clip keeps a higher-resolution re-encode profile,
+#      while compatible section clips preserve their original H.264 video stream
 #   5. Skips unchanged files on reruns by storing ignored hash sidecars
 #
 # Safe to re-run. Add new files to assets/ and run again.
@@ -192,6 +192,7 @@ optimize_image() {
 optimize_video() {
   local src="$1"
   local base tmp size_before size_after video_max_width video_max_height video_crf
+  local codec_name pix_fmt width height
   base="${src%.*}"
   tmp="${base}.tmp.mp4"
   video_max_width="$VIDEO_MAX_WIDTH"
@@ -212,15 +213,56 @@ optimize_video() {
   size_before="$(file_size_bytes "$src")"
   log "Optimizing video: ${src#./}"
 
-  ffmpeg -nostdin -y -i "$src" \
-    -c:v libx264 \
-    -crf "$video_crf" \
-    -preset "$VIDEO_PRESET" \
-    -movflags +faststart \
-    -pix_fmt yuv420p \
-    -vf "scale='min(${video_max_width},iw)':'min(${video_max_height},ih)':force_original_aspect_ratio=decrease" \
-    -an \
-    "$tmp" >/dev/null 2>&1
+  codec_name="$(
+    ffprobe -v error \
+      -select_streams v:0 \
+      -show_entries stream=codec_name \
+      -of default=noprint_wrappers=1:nokey=1 \
+      "$src"
+  )"
+  pix_fmt="$(
+    ffprobe -v error \
+      -select_streams v:0 \
+      -show_entries stream=pix_fmt \
+      -of default=noprint_wrappers=1:nokey=1 \
+      "$src"
+  )"
+  width="$(
+    ffprobe -v error \
+      -select_streams v:0 \
+      -show_entries stream=width \
+      -of default=noprint_wrappers=1:nokey=1 \
+      "$src"
+  )"
+  height="$(
+    ffprobe -v error \
+      -select_streams v:0 \
+      -show_entries stream=height \
+      -of default=noprint_wrappers=1:nokey=1 \
+      "$src"
+  )"
+
+  if [[ "$base" != "./img6/video_2" ]] \
+    && [[ "$codec_name" == "h264" ]] \
+    && [[ "$pix_fmt" == "yuv420p" ]] \
+    && (( width <= video_max_width )) \
+    && (( height <= video_max_height )); then
+    ffmpeg -nostdin -y -i "$src" \
+      -map 0:v:0 \
+      -c:v copy \
+      -movflags +faststart \
+      "$tmp" >/dev/null 2>&1
+  else
+    ffmpeg -nostdin -y -i "$src" \
+      -c:v libx264 \
+      -crf "$video_crf" \
+      -preset "$VIDEO_PRESET" \
+      -movflags +faststart \
+      -pix_fmt yuv420p \
+      -vf "scale='min(${video_max_width},iw)':'min(${video_max_height},ih)':force_original_aspect_ratio=decrease" \
+      -an \
+      "$tmp" >/dev/null 2>&1
+  fi
 
   mv "$tmp" "$src"
   write_state "$base" "$src"
