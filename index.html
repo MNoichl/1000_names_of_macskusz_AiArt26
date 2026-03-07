@@ -557,6 +557,30 @@
       margin-top: 1rem;
     }
 
+    .about-meet {
+      max-width: 42rem;
+      margin: 0 auto 3.5rem;
+      text-align: center;
+      color: var(--white);
+    }
+
+    .closing-block {
+      max-width: 40rem;
+      margin: 0 auto 4rem;
+      padding-top: 2.25rem;
+      border-top: 1px solid var(--gray-dark);
+      text-align: center;
+      color: var(--gray-light);
+    }
+
+    .closing-block p + p {
+      margin-top: 1.5rem;
+    }
+
+    .closing-signoff {
+      color: var(--white);
+    }
+
     .closing-note {
       font-style: italic;
       color: var(--gray);
@@ -572,7 +596,7 @@
 
     /* ---- FOOTER ---- */
     footer {
-      padding: 6rem var(--margin);
+      padding: 2.5rem var(--margin) 5rem;
       text-align: center;
     }
 
@@ -582,7 +606,7 @@
       letter-spacing: 0.2em;
       text-transform: uppercase;
       color: var(--gray-dark);
-      margin-top: 2rem;
+      margin-top: 0;
     }
 
     /* ---- FADE IN ANIMATIONS ---- */
@@ -640,6 +664,10 @@
       .video-meta {
         flex-direction: column;
         gap: 0.3rem;
+      }
+
+      .closing-block {
+        padding-top: 1.75rem;
       }
     }
 
@@ -876,10 +904,10 @@
         <p>Previous works include a large, data-driven <a class="inline-link" href="https://www.maxnoichl.eu/full/zoom_final/index.html" target="_blank" rel="noreferrer">map of philosophy</a>, the AI-illustrated accidental philosophical haiku project <a class="inline-link" href="https://www.maxnoichl.eu/projects/philohaiku/" target="_blank" rel="noreferrer">Philohaiku</a>, and other computational projects across philosophy and art on <a class="inline-link" href="https://maxnoichl.eu/" target="_blank" rel="noreferrer">maxnoichl.eu</a>.</p>
       </div>
     </div>
-    <div class="text-block fade-in">
-      <p>We met in 2015 during our philosophy studies in Vienna and now live and work together in Bamberg, Germany.</p>
+    <p class="about-meet fade-in">We met in 2015 during our philosophy studies in Vienna and now live and work together in Bamberg, Germany.</p>
+    <div class="closing-block fade-in">
       <p>Thank you very much for taking the time to read our proposal and for considering our submission for the Art Exhibition at CVPR 2026 in Denver.</p>
-      <p>See you soon,<br><em>Vero &amp; Max</em></p>
+      <p class="closing-signoff">See you soon,<br><em>Vero &amp; Max</em></p>
     </div>
     <div class="video-figure fade-in">
       <div class="video-wrap">
@@ -893,11 +921,8 @@
     </div>
   </section>
 
-  <div class="divider"></div>
-
   <!-- FOOTER -->
   <footer>
-    <h2 class="fade-in"><em>Macskusz</em></h2>
     <p class="colophon fade-in">Max & Vero &mdash; Denver, 2026</p>
   </footer>
 
@@ -905,19 +930,24 @@
     let soundUnlocked = false;
 
     function unlockVideoSound() {
+      if (soundUnlocked) {
+        return;
+      }
+
       soundUnlocked = true;
       document.querySelectorAll('video').forEach(video => {
-        video.muted = false;
-        if (!video.paused) {
-          const playPromise = video.play();
-          if (playPromise) {
-            playPromise.catch(() => {});
-          }
+        if (!video.paused || video.currentTime > 0) {
+          playVideo(video);
+          return;
         }
+
+        video.muted = false;
       });
     }
 
     window.addEventListener('pointerdown', unlockVideoSound, { once: true });
+    window.addEventListener('click', unlockVideoSound, { once: true });
+    window.addEventListener('touchstart', unlockVideoSound, { once: true });
     window.addEventListener('keydown', unlockVideoSound, { once: true });
 
     function playVideo(video) {
