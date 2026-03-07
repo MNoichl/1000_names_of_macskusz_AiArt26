@@ -747,25 +747,67 @@
       video.addEventListener('canplay', callback, { once: true });
     }
 
+    function getSmallImageSrc(img) {
+      const largeSrc = img.dataset.src;
+      if (!largeSrc) {
+        return null;
+      }
+
+      return largeSrc.replace(/\.jpg(?=($|\?))/i, '.small.jpg');
+    }
+
+    function preloadImageAsset(src, callback) {
+      const loader = new Image();
+      loader.decoding = 'async';
+      loader.src = src;
+      loader.onload = () => callback(src);
+      loader.onerror = () => callback(src);
+    }
+
     function loadDeferredImage(img) {
-      if (img.dataset.loaded === '1') {
+      if (img.dataset.loaded === '1' || img.dataset.loading === '1') {
         return;
       }
 
-      const fullSrc = img.dataset.src;
-      const loader = new Image();
-      loader.decoding = 'async';
-      loader.src = fullSrc;
-      loader.onload = () => {
-        img.src = fullSrc;
-        img.classList.remove('is-thumb');
-        img.dataset.loaded = '1';
+      const largeSrc = img.dataset.src;
+      const smallSrc = getSmallImageSrc(img);
+      img.dataset.loading = '1';
+
+      const finishWithLarge = () => {
+        preloadImageAsset(largeSrc, (resolvedSrc) => {
+          img.src = resolvedSrc;
+          img.dataset.loaded = '1';
+          delete img.dataset.loading;
+        });
       };
-      loader.onerror = () => {
-        img.src = fullSrc;
+
+      if (!smallSrc || smallSrc === largeSrc) {
+        preloadImageAsset(largeSrc, (resolvedSrc) => {
+          img.src = resolvedSrc;
+          img.classList.remove('is-thumb');
+          img.dataset.loaded = '1';
+          delete img.dataset.loading;
+        });
+        return;
+      }
+
+      preloadImageAsset(smallSrc, (resolvedSrc) => {
+        img.src = resolvedSrc;
         img.classList.remove('is-thumb');
-        img.dataset.loaded = '1';
-      };
+
+        const scheduleLarge = window.requestIdleCallback
+          ? (cb) => window.requestIdleCallback(cb, { timeout: 700 })
+          : (cb) => window.setTimeout(cb, 120);
+
+        scheduleLarge(() => {
+          if (!img.isConnected) {
+            delete img.dataset.loading;
+            return;
+          }
+
+          finishWithLarge();
+        });
+      });
     }
 
     // Hero landing sequence: poster -> video -> blackout -> title
@@ -814,7 +856,7 @@
         });
       }, {
         threshold: 0.01,
-        rootMargin: '320px 0px'
+        rootMargin: '480px 0px'
       });
 
       deferredImages.forEach(img => imageObserver.observe(img));

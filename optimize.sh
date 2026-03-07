@@ -6,9 +6,10 @@
 #
 # What it does:
 #   1. Converts images to progressive JPEGs (quality 92, max 2200px)
-#   2. Creates tiny blurred thumbnails (<name>.thumb.jpg) for progressive loading
-#   3. Re-encodes videos with H.264 + faststart for browser playback
-#   4. Skips unchanged files on reruns by storing ignored hash sidecars
+#   2. Creates crisp intermediate JPEGs (<name>.small.jpg) for quick display
+#   3. Creates tiny blurred thumbnails (<name>.thumb.jpg) for progressive loading
+#   4. Re-encodes videos with H.264 + faststart for browser playback
+#   5. Skips unchanged files on reruns by storing ignored hash sidecars
 #
 # Safe to re-run. Add new files to assets/ and run again.
 
@@ -18,6 +19,8 @@ SITE_DIR="$(cd "$(dirname "$0")" && pwd)"
 ASSETS_DIR="$SITE_DIR/assets"
 IMAGE_MAX_DIM=2200
 IMAGE_QUALITY=92
+SMALL_MAX_DIM=1200
+SMALL_QUALITY=86
 THUMB_MAX_DIM=96
 THUMB_QUALITY=38
 VIDEO_MAX_WIDTH=1600
@@ -102,13 +105,16 @@ render_jpeg() {
 
 optimize_image() {
   local src="$1"
-  local ext lext base full_path thumb_path tmp_full tmp_thumb old_size new_size
+  local ext lext base full_path small_path thumb_path
+  local tmp_full tmp_small tmp_thumb old_size new_size
   ext="${src##*.}"
   lext="$(echo "$ext" | tr '[:upper:]' '[:lower:]')"
   base="${src%.*}"
   full_path="${base}.jpg"
+  small_path="${base}.small.jpg"
   thumb_path="${base}.thumb.jpg"
   tmp_full="${full_path}.tmp"
+  tmp_small="${small_path}.tmp"
   tmp_thumb="${thumb_path}.tmp"
 
   case "$lext" in
@@ -119,7 +125,7 @@ optimize_image() {
       ;;
   esac
 
-  if [[ "$src" == "$full_path" ]] && is_current "$base" "$full_path" "$full_path" "$thumb_path"; then
+  if [[ "$src" == "$full_path" ]] && is_current "$base" "$full_path" "$full_path" "$small_path" "$thumb_path"; then
     log "Skipping image: ${full_path#./}"
     return
   fi
@@ -134,6 +140,16 @@ optimize_image() {
   log "Optimizing image: ${src#./} -> ${full_path#./}"
   render_jpeg "$src" "$tmp_full" "$IMAGE_MAX_DIM" "$IMAGE_QUALITY"
   mv "$tmp_full" "$full_path"
+
+  magick "$full_path" \
+    -resize "${SMALL_MAX_DIM}x${SMALL_MAX_DIM}>" \
+    -colorspace sRGB \
+    -sampling-factor 4:4:4 \
+    -interlace Plane \
+    -quality "$SMALL_QUALITY" \
+    -strip \
+    "$tmp_small"
+  mv "$tmp_small" "$small_path"
 
   magick "$full_path" \
     -resize "${THUMB_MAX_DIM}x${THUMB_MAX_DIM}>" \
@@ -187,6 +203,7 @@ optimize_video() {
 
 find . -type f \
   \( -iname "*.png" -o -iname "*.jpg" -o -iname "*.jpeg" -o -iname "*.webp" -o -iname "*.tif" -o -iname "*.tiff" -o -iname "*.avif" \) \
+  ! -name "*.small.jpg" \
   ! -name "*.thumb.jpg" \
   ! -name "*.asset.sha256" \
   -print0 | sort -z | while IFS= read -r -d '' file; do
