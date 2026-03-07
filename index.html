@@ -7,6 +7,9 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+  <!-- Preload hero assets for instant playback -->
+  <link rel="preload" href="assets/img6/hero_poster.jpg" as="image">
+  <link rel="preload" href="assets/img6/video_2.mp4" as="video">
   <style>
     *, *::before, *::after {
       margin: 0;
@@ -485,6 +488,16 @@
       transform: translateY(0);
     }
 
+    /* ---- PROGRESSIVE IMAGE LOADING ---- */
+    .deferred-img {
+      transition: filter 0.45s ease, transform 0.45s ease;
+    }
+
+    .deferred-img.is-thumb {
+      filter: blur(20px) grayscale(100%);
+      transform: scale(1.03);
+    }
+
     /* ---- RESPONSIVE ---- */
     @media (max-width: 768px) {
       :root {
@@ -541,7 +554,7 @@
   <section class="hero" id="top">
     <div class="hero-media">
       <div class="hero-poster" id="heroPoster">
-        <img src="assets/img6/hero_poster.png" alt="">
+        <img src="assets/img6/hero_poster.jpg" alt="" fetchpriority="high" decoding="async">
       </div>
       <video id="heroVideo" src="assets/img6/video_2.mp4" muted playsinline preload="auto"></video>
       <div class="hero-blackout" id="heroBlackout"></div>
@@ -564,7 +577,7 @@
       <p>The first illustration of Macskusz was created later that same year, around All Saints' Day, as a paper cutout. At the time, Vero had developed a strong interest in the Mexican craft tradition of <em>papel picado</em>.</p>
     </div>
     <div class="single-image fade-in">
-      <img src="assets/img1/1.png" alt="The original Macskusz paper cutout" loading="lazy">
+      <img class="deferred-img is-thumb" src="assets/img1/1.thumb.jpg" data-src="assets/img1/1.jpg" alt="The original Macskusz paper cutout" loading="lazy" decoding="async">
       <p class="image-caption">The original Macskusz, 2021</p>
     </div>
   </section>
@@ -579,10 +592,10 @@
       <p>This first Macskusz was followed by a series of cutouts made from magazine scraps, which were pasted into a specially made book that functioned much like a diary.</p>
     </div>
     <div class="grid-2 fade-in">
-      <img src="assets/img2/2.1.jpg" alt="Book page 1" loading="lazy">
-      <img src="assets/img2/2.2.jpg" alt="Book page 2" loading="lazy">
-      <img src="assets/img2/2.3.jpg" alt="Book page 3" loading="lazy">
-      <img src="assets/img2/2.4.jpg" alt="Book page 4" loading="lazy">
+      <img class="deferred-img is-thumb" src="assets/img2/2.1.thumb.jpg" data-src="assets/img2/2.1.jpg" alt="Book page 1" loading="lazy" decoding="async">
+      <img class="deferred-img is-thumb" src="assets/img2/2.2.thumb.jpg" data-src="assets/img2/2.2.jpg" alt="Book page 2" loading="lazy" decoding="async">
+      <img class="deferred-img is-thumb" src="assets/img2/2.3.thumb.jpg" data-src="assets/img2/2.3.jpg" alt="Book page 3" loading="lazy" decoding="async">
+      <img class="deferred-img is-thumb" src="assets/img2/2.4.thumb.jpg" data-src="assets/img2/2.4.jpg" alt="Book page 4" loading="lazy" decoding="async">
     </div>
   </section>
 
@@ -597,15 +610,15 @@
       <p>Over time, the avatars quickly drifted away from the original feline form. In some cases they are no longer creatures at all, but resemble natural forces or landscapes.</p>
     </div>
     <div class="grid-3 fade-in">
-      <img src="assets/img3/3.1.png" alt="Macskusz avatar 1" loading="lazy">
-      <img src="assets/img3/3.3.png" alt="Macskusz avatar 3" loading="lazy">
-      <img src="assets/img3/3.4.png" alt="Macskusz avatar 4" loading="lazy">
-      <img src="assets/img3/3.5.png" alt="Macskusz avatar 5" loading="lazy">
-      <img src="assets/img3/3.6.png" alt="Macskusz avatar 6" loading="lazy">
-      <img src="assets/img3/3.7.png" alt="Macskusz avatar 7" loading="lazy">
-      <img src="assets/img3/3.9.png" alt="Macskusz avatar 9" loading="lazy">
-      <img src="assets/img3/3.10.png" alt="Macskusz avatar 10" loading="lazy">
-      <img src="assets/img3/3.11.png" alt="Macskusz avatar 11" loading="lazy">
+      <img class="deferred-img is-thumb" src="assets/img3/3.1.thumb.jpg" data-src="assets/img3/3.1.jpg" alt="Macskusz avatar 1" loading="lazy" decoding="async">
+      <img class="deferred-img is-thumb" src="assets/img3/3.3.thumb.jpg" data-src="assets/img3/3.3.jpg" alt="Macskusz avatar 3" loading="lazy" decoding="async">
+      <img class="deferred-img is-thumb" src="assets/img3/3.4.thumb.jpg" data-src="assets/img3/3.4.jpg" alt="Macskusz avatar 4" loading="lazy" decoding="async">
+      <img class="deferred-img is-thumb" src="assets/img3/3.5.thumb.jpg" data-src="assets/img3/3.5.jpg" alt="Macskusz avatar 5" loading="lazy" decoding="async">
+      <img class="deferred-img is-thumb" src="assets/img3/3.6.thumb.jpg" data-src="assets/img3/3.6.jpg" alt="Macskusz avatar 6" loading="lazy" decoding="async">
+      <img class="deferred-img is-thumb" src="assets/img3/3.7.thumb.jpg" data-src="assets/img3/3.7.jpg" alt="Macskusz avatar 7" loading="lazy" decoding="async">
+      <img class="deferred-img is-thumb" src="assets/img3/3.9.thumb.jpg" data-src="assets/img3/3.9.jpg" alt="Macskusz avatar 9" loading="lazy" decoding="async">
+      <img class="deferred-img is-thumb" src="assets/img3/3.10.thumb.jpg" data-src="assets/img3/3.10.jpg" alt="Macskusz avatar 10" loading="lazy" decoding="async">
+      <img class="deferred-img is-thumb" src="assets/img3/3.11.thumb.jpg" data-src="assets/img3/3.11.jpg" alt="Macskusz avatar 11" loading="lazy" decoding="async">
     </div>
     <p class="image-caption fade-in">Selected paper-cut avatars from the book series, 2021</p>
   </section>
@@ -620,42 +633,42 @@
       <p>The paper-cut series was still limited to the pages of the book. Although the project concluded with image no. 76 in the same year, it was revived in 2025 when Max proposed recreating the process of the "Macskuszisation" of the world using digital methods.</p>
     </div>
     <div class="fade-in" style="margin-bottom: 4rem;">
-      <img src="assets/img4/workflow.jpeg" alt="Workflow diagram" loading="lazy" style="width: 100%; display: block;">
+      <img class="deferred-img is-thumb" src="assets/img4/workflow.thumb.jpg" data-src="assets/img4/workflow.jpg" alt="Workflow diagram" loading="lazy" decoding="async" style="width: 100%; display: block;">
     </div>
     <div class="filmstrip-container fade-in">
       <div class="filmstrip" id="filmstrip">
-        <img src="assets/img4/molty_01.jpg" alt="Molty 1" loading="lazy">
-        <img src="assets/img4/molty_02.jpg" alt="Molty 2" loading="lazy">
-        <img src="assets/img4/molty_03.jpg" alt="Molty 3" loading="lazy">
-        <img src="assets/img4/molty_04.jpg" alt="Molty 4" loading="lazy">
-        <img src="assets/img4/molty_05.jpg" alt="Molty 5" loading="lazy">
-        <img src="assets/img4/molty_06.jpg" alt="Molty 6" loading="lazy">
-        <img src="assets/img4/molty_08.jpg" alt="Molty 8" loading="lazy">
-        <img src="assets/img4/molty_09.jpg" alt="Molty 9" loading="lazy">
-        <img src="assets/img4/molty_12.jpg" alt="Molty 12" loading="lazy">
-        <img src="assets/img4/molty_13.jpg" alt="Molty 13" loading="lazy">
-        <img src="assets/img4/molty_14.jpg" alt="Molty 14" loading="lazy">
-        <img src="assets/img4/molty_16.jpg" alt="Molty 16" loading="lazy">
-        <img src="assets/img4/molty_17.jpg" alt="Molty 17" loading="lazy">
-        <img src="assets/img4/molty_18.jpg" alt="Molty 18" loading="lazy">
-        <img src="assets/img4/molty_19.jpg" alt="Molty 19" loading="lazy">
+        <img class="deferred-img is-thumb" src="assets/img4/molty_01.thumb.jpg" data-src="assets/img4/molty_01.jpg" alt="Molty 1" loading="lazy" decoding="async">
+        <img class="deferred-img is-thumb" src="assets/img4/molty_02.thumb.jpg" data-src="assets/img4/molty_02.jpg" alt="Molty 2" loading="lazy" decoding="async">
+        <img class="deferred-img is-thumb" src="assets/img4/molty_03.thumb.jpg" data-src="assets/img4/molty_03.jpg" alt="Molty 3" loading="lazy" decoding="async">
+        <img class="deferred-img is-thumb" src="assets/img4/molty_04.thumb.jpg" data-src="assets/img4/molty_04.jpg" alt="Molty 4" loading="lazy" decoding="async">
+        <img class="deferred-img is-thumb" src="assets/img4/molty_05.thumb.jpg" data-src="assets/img4/molty_05.jpg" alt="Molty 5" loading="lazy" decoding="async">
+        <img class="deferred-img is-thumb" src="assets/img4/molty_06.thumb.jpg" data-src="assets/img4/molty_06.jpg" alt="Molty 6" loading="lazy" decoding="async">
+        <img class="deferred-img is-thumb" src="assets/img4/molty_08.thumb.jpg" data-src="assets/img4/molty_08.jpg" alt="Molty 8" loading="lazy" decoding="async">
+        <img class="deferred-img is-thumb" src="assets/img4/molty_09.thumb.jpg" data-src="assets/img4/molty_09.jpg" alt="Molty 9" loading="lazy" decoding="async">
+        <img class="deferred-img is-thumb" src="assets/img4/molty_12.thumb.jpg" data-src="assets/img4/molty_12.jpg" alt="Molty 12" loading="lazy" decoding="async">
+        <img class="deferred-img is-thumb" src="assets/img4/molty_13.thumb.jpg" data-src="assets/img4/molty_13.jpg" alt="Molty 13" loading="lazy" decoding="async">
+        <img class="deferred-img is-thumb" src="assets/img4/molty_14.thumb.jpg" data-src="assets/img4/molty_14.jpg" alt="Molty 14" loading="lazy" decoding="async">
+        <img class="deferred-img is-thumb" src="assets/img4/molty_16.thumb.jpg" data-src="assets/img4/molty_16.jpg" alt="Molty 16" loading="lazy" decoding="async">
+        <img class="deferred-img is-thumb" src="assets/img4/molty_17.thumb.jpg" data-src="assets/img4/molty_17.jpg" alt="Molty 17" loading="lazy" decoding="async">
+        <img class="deferred-img is-thumb" src="assets/img4/molty_18.thumb.jpg" data-src="assets/img4/molty_18.jpg" alt="Molty 18" loading="lazy" decoding="async">
+        <img class="deferred-img is-thumb" src="assets/img4/molty_19.thumb.jpg" data-src="assets/img4/molty_19.jpg" alt="Molty 19" loading="lazy" decoding="async">
         <span class="separator"></span>
         <!-- duplicate set for seamless loop -->
-        <img src="assets/img4/molty_01.jpg" alt="" loading="lazy">
-        <img src="assets/img4/molty_02.jpg" alt="" loading="lazy">
-        <img src="assets/img4/molty_03.jpg" alt="" loading="lazy">
-        <img src="assets/img4/molty_04.jpg" alt="" loading="lazy">
-        <img src="assets/img4/molty_05.jpg" alt="" loading="lazy">
-        <img src="assets/img4/molty_06.jpg" alt="" loading="lazy">
-        <img src="assets/img4/molty_08.jpg" alt="" loading="lazy">
-        <img src="assets/img4/molty_09.jpg" alt="" loading="lazy">
-        <img src="assets/img4/molty_12.jpg" alt="" loading="lazy">
-        <img src="assets/img4/molty_13.jpg" alt="" loading="lazy">
-        <img src="assets/img4/molty_14.jpg" alt="" loading="lazy">
-        <img src="assets/img4/molty_16.jpg" alt="" loading="lazy">
-        <img src="assets/img4/molty_17.jpg" alt="" loading="lazy">
-        <img src="assets/img4/molty_18.jpg" alt="" loading="lazy">
-        <img src="assets/img4/molty_19.jpg" alt="" loading="lazy">
+        <img class="deferred-img is-thumb" src="assets/img4/molty_01.thumb.jpg" data-src="assets/img4/molty_01.jpg" alt="" loading="lazy" decoding="async" aria-hidden="true">
+        <img class="deferred-img is-thumb" src="assets/img4/molty_02.thumb.jpg" data-src="assets/img4/molty_02.jpg" alt="" loading="lazy" decoding="async" aria-hidden="true">
+        <img class="deferred-img is-thumb" src="assets/img4/molty_03.thumb.jpg" data-src="assets/img4/molty_03.jpg" alt="" loading="lazy" decoding="async" aria-hidden="true">
+        <img class="deferred-img is-thumb" src="assets/img4/molty_04.thumb.jpg" data-src="assets/img4/molty_04.jpg" alt="" loading="lazy" decoding="async" aria-hidden="true">
+        <img class="deferred-img is-thumb" src="assets/img4/molty_05.thumb.jpg" data-src="assets/img4/molty_05.jpg" alt="" loading="lazy" decoding="async" aria-hidden="true">
+        <img class="deferred-img is-thumb" src="assets/img4/molty_06.thumb.jpg" data-src="assets/img4/molty_06.jpg" alt="" loading="lazy" decoding="async" aria-hidden="true">
+        <img class="deferred-img is-thumb" src="assets/img4/molty_08.thumb.jpg" data-src="assets/img4/molty_08.jpg" alt="" loading="lazy" decoding="async" aria-hidden="true">
+        <img class="deferred-img is-thumb" src="assets/img4/molty_09.thumb.jpg" data-src="assets/img4/molty_09.jpg" alt="" loading="lazy" decoding="async" aria-hidden="true">
+        <img class="deferred-img is-thumb" src="assets/img4/molty_12.thumb.jpg" data-src="assets/img4/molty_12.jpg" alt="" loading="lazy" decoding="async" aria-hidden="true">
+        <img class="deferred-img is-thumb" src="assets/img4/molty_13.thumb.jpg" data-src="assets/img4/molty_13.jpg" alt="" loading="lazy" decoding="async" aria-hidden="true">
+        <img class="deferred-img is-thumb" src="assets/img4/molty_14.thumb.jpg" data-src="assets/img4/molty_14.jpg" alt="" loading="lazy" decoding="async" aria-hidden="true">
+        <img class="deferred-img is-thumb" src="assets/img4/molty_16.thumb.jpg" data-src="assets/img4/molty_16.jpg" alt="" loading="lazy" decoding="async" aria-hidden="true">
+        <img class="deferred-img is-thumb" src="assets/img4/molty_17.thumb.jpg" data-src="assets/img4/molty_17.jpg" alt="" loading="lazy" decoding="async" aria-hidden="true">
+        <img class="deferred-img is-thumb" src="assets/img4/molty_18.thumb.jpg" data-src="assets/img4/molty_18.jpg" alt="" loading="lazy" decoding="async" aria-hidden="true">
+        <img class="deferred-img is-thumb" src="assets/img4/molty_19.thumb.jpg" data-src="assets/img4/molty_19.jpg" alt="" loading="lazy" decoding="async" aria-hidden="true">
         <span class="separator"></span>
       </div>
     </div>
@@ -672,18 +685,18 @@
       <p>It functions both as a mascot and as a form of documentation of their relationship, attempting to capture the experiences and moods of each day by allowing them to manifest, day after day, in a new entity.</p>
     </div>
     <div class="masonry fade-in" id="namedMasonry">
-      <img src="assets/img5/gen_02.png" alt="Generated avatar" loading="lazy">
-      <img src="assets/img5/gen_04.png" alt="Generated avatar" loading="lazy">
-      <img src="assets/img5/gen_06.png" alt="Generated avatar" loading="lazy">
-      <img src="assets/img5/gen_07.png" alt="Generated avatar" loading="lazy">
-      <img src="assets/img5/gen_08.png" alt="Generated avatar" loading="lazy">
-      <img src="assets/img5/gen_09.png" alt="Generated avatar" loading="lazy">
-      <img src="assets/img5/gen_12.png" alt="Generated avatar" loading="lazy">
-      <img src="assets/img5/gen_13.jpeg" alt="Generated avatar" loading="lazy">
-      <img src="assets/img5/gen_15.jpeg" alt="Generated avatar" loading="lazy">
-      <img src="assets/img5/gen_16.png" alt="Generated avatar" loading="lazy">
-      <img src="assets/img5/gen_19.png" alt="Generated avatar" loading="lazy">
-      <img src="assets/img5/gen_21.png" alt="Generated avatar" loading="lazy">
+      <img class="deferred-img is-thumb" src="assets/img5/gen_02.thumb.jpg" data-src="assets/img5/gen_02.jpg" alt="Generated avatar" loading="lazy" decoding="async">
+      <img class="deferred-img is-thumb" src="assets/img5/gen_04.thumb.jpg" data-src="assets/img5/gen_04.jpg" alt="Generated avatar" loading="lazy" decoding="async">
+      <img class="deferred-img is-thumb" src="assets/img5/gen_06.thumb.jpg" data-src="assets/img5/gen_06.jpg" alt="Generated avatar" loading="lazy" decoding="async">
+      <img class="deferred-img is-thumb" src="assets/img5/gen_07.thumb.jpg" data-src="assets/img5/gen_07.jpg" alt="Generated avatar" loading="lazy" decoding="async">
+      <img class="deferred-img is-thumb" src="assets/img5/gen_08.thumb.jpg" data-src="assets/img5/gen_08.jpg" alt="Generated avatar" loading="lazy" decoding="async">
+      <img class="deferred-img is-thumb" src="assets/img5/gen_09.thumb.jpg" data-src="assets/img5/gen_09.jpg" alt="Generated avatar" loading="lazy" decoding="async">
+      <img class="deferred-img is-thumb" src="assets/img5/gen_12.thumb.jpg" data-src="assets/img5/gen_12.jpg" alt="Generated avatar" loading="lazy" decoding="async">
+      <img class="deferred-img is-thumb" src="assets/img5/gen_13.thumb.jpg" data-src="assets/img5/gen_13.jpg" alt="Generated avatar" loading="lazy" decoding="async">
+      <img class="deferred-img is-thumb" src="assets/img5/gen_15.thumb.jpg" data-src="assets/img5/gen_15.jpg" alt="Generated avatar" loading="lazy" decoding="async">
+      <img class="deferred-img is-thumb" src="assets/img5/gen_16.thumb.jpg" data-src="assets/img5/gen_16.jpg" alt="Generated avatar" loading="lazy" decoding="async">
+      <img class="deferred-img is-thumb" src="assets/img5/gen_19.thumb.jpg" data-src="assets/img5/gen_19.jpg" alt="Generated avatar" loading="lazy" decoding="async">
+      <img class="deferred-img is-thumb" src="assets/img5/gen_21.thumb.jpg" data-src="assets/img5/gen_21.jpg" alt="Generated avatar" loading="lazy" decoding="async">
     </div>
   </section>
 
@@ -699,12 +712,12 @@
     </div>
     <div class="exhibit-videos fade-in">
       <div class="video-wrap">
-        <img class="video-poster" src="assets/img6/6.3.png" alt="">
-        <video class="delayed-video" src="assets/img6/video_1.mp4" loop muted playsinline preload="auto"></video>
+        <img class="video-poster deferred-img is-thumb" src="assets/img6/6.3.thumb.jpg" data-src="assets/img6/6.3.jpg" alt="" decoding="async">
+        <video class="delayed-video" data-src="assets/img6/video_1.mp4" loop muted playsinline preload="none"></video>
       </div>
       <div class="video-wrap">
-        <img class="video-poster" src="assets/img6/6.1.png" alt="">
-        <video class="delayed-video" src="assets/img6/video_2.mp4" loop muted playsinline preload="auto"></video>
+        <img class="video-poster deferred-img is-thumb" src="assets/img6/6.1.thumb.jpg" data-src="assets/img6/6.1.jpg" alt="" decoding="async">
+        <video class="delayed-video" data-src="assets/img6/video_2.mp4" loop muted playsinline preload="none"></video>
       </div>
     </div>
   </section>
@@ -718,93 +731,177 @@
   </footer>
 
   <script>
-    // Hero landing sequence: PNG → video → blackout → title
+    function playMutedVideo(video) {
+      const playPromise = video.play();
+      if (playPromise) {
+        playPromise.catch(() => {});
+      }
+    }
+
+    function whenVideoCanPlay(video, callback) {
+      if (video.readyState >= HTMLMediaElement.HAVE_FUTURE_DATA) {
+        callback();
+        return;
+      }
+
+      video.addEventListener('canplay', callback, { once: true });
+    }
+
+    function loadDeferredImage(img) {
+      if (img.dataset.loaded === '1') {
+        return;
+      }
+
+      const fullSrc = img.dataset.src;
+      const loader = new Image();
+      loader.decoding = 'async';
+      loader.src = fullSrc;
+      loader.onload = () => {
+        img.src = fullSrc;
+        img.classList.remove('is-thumb');
+        img.dataset.loaded = '1';
+      };
+      loader.onerror = () => {
+        img.src = fullSrc;
+        img.classList.remove('is-thumb');
+        img.dataset.loaded = '1';
+      };
+    }
+
+    // Hero landing sequence: poster -> video -> blackout -> title
     (function() {
       const poster = document.getElementById('heroPoster');
       const video = document.getElementById('heroVideo');
       const blackout = document.getElementById('heroBlackout');
       const content = document.getElementById('heroContent');
+      let revealed = false;
 
-      // Show PNG for 1.5s, then fade it and play video
-      setTimeout(() => {
-        poster.classList.add('fade-out');
-        video.play();
-      }, 1500);
+      function revealContent() {
+        if (revealed) {
+          return;
+        }
 
-      // When video ends, fade to black then show title
-      video.addEventListener('ended', () => {
+        revealed = true;
         blackout.classList.add('active');
         setTimeout(() => {
           content.classList.add('visible');
         }, 1200);
-      });
+      }
+
+      video.load();
+
+      setTimeout(() => {
+        whenVideoCanPlay(video, () => {
+          poster.classList.add('fade-out');
+          playMutedVideo(video);
+        });
+      }, 1500);
+
+      video.addEventListener('ended', revealContent);
+      setTimeout(revealContent, 9000);
     })();
+
+    const deferredImages = document.querySelectorAll('img[data-src]');
+    if ('IntersectionObserver' in window) {
+      const imageObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+          if (!entry.isIntersecting) {
+            return;
+          }
+
+          observer.unobserve(entry.target);
+          loadDeferredImage(entry.target);
+        });
+      }, {
+        threshold: 0.01,
+        rootMargin: '320px 0px'
+      });
+
+      deferredImages.forEach(img => imageObserver.observe(img));
+    } else {
+      deferredImages.forEach(loadDeferredImage);
+    }
 
     // Name labels for generated avatars
     const avatarNames = {
-      "gen_02.png": "Macskusz der Schattenfresser",
-      "gen_04.png": "Macskusz im Spiegelwald",
-      "gen_06.png": "Macskusz der Knochenträger",
-      "gen_07.png": "Macskusz mit tausend Zungen",
-      "gen_08.png": "Macskusz der Flügellose",
-      "gen_09.png": "Macskusz am Morgen danach",
-      "gen_12.png": "Macskusz der Wurzelgänger",
-      "gen_13.jpeg": "Macskusz im Federkleid",
-      "gen_15.jpeg": "Macskusz der Gezeitenwächter",
-      "gen_16.png": "Macskusz ohne Gesicht",
-      "gen_19.png": "Macskusz der Bienenkönig",
-      "gen_21.png": "Macskusz der Letzte"
+      "gen_02.jpg": "Macskusz der Schattenfresser",
+      "gen_04.jpg": "Macskusz im Spiegelwald",
+      "gen_06.jpg": "Macskusz der Knochenträger",
+      "gen_07.jpg": "Macskusz mit tausend Zungen",
+      "gen_08.jpg": "Macskusz der Flügellose",
+      "gen_09.jpg": "Macskusz am Morgen danach",
+      "gen_12.jpg": "Macskusz der Wurzelgänger",
+      "gen_13.jpg": "Macskusz im Federkleid",
+      "gen_15.jpg": "Macskusz der Gezeitenwächter",
+      "gen_16.jpg": "Macskusz ohne Gesicht",
+      "gen_19.jpg": "Macskusz der Bienenkönig",
+      "gen_21.jpg": "Macskusz der Letzte"
     };
 
     const masonry = document.getElementById('namedMasonry');
-    masonry.querySelectorAll('img').forEach(img => {
-      const filename = img.src.split('/').pop();
-      const name = avatarNames[filename];
-      if (name) {
-        const wrap = document.createElement('div');
-        wrap.className = 'named-img';
-        img.parentNode.insertBefore(wrap, img);
-        wrap.appendChild(img);
-        const label = document.createElement('span');
-        label.className = 'name-label';
-        label.textContent = name;
-        wrap.appendChild(label);
-      }
-    });
-
-    // Intersection Observer for fade-in animations
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
+    if (masonry) {
+      masonry.querySelectorAll('img').forEach(img => {
+        const filename = (img.dataset.src || img.src).split('/').pop();
+        const name = avatarNames[filename];
+        if (name) {
+          const wrap = document.createElement('div');
+          wrap.className = 'named-img';
+          img.parentNode.insertBefore(wrap, img);
+          wrap.appendChild(img);
+          const label = document.createElement('span');
+          label.className = 'name-label';
+          label.textContent = name;
+          wrap.appendChild(label);
         }
       });
-    }, {
-      threshold: 0.1,
-      rootMargin: '0px 0px -50px 0px'
-    });
+    }
 
-    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+    if ('IntersectionObserver' in window) {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+          }
+        });
+      }, {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+      });
 
-    // Show poster PNG for 4s, then fade it out and start the video
+      document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+    } else {
+      document.querySelectorAll('.fade-in').forEach(el => el.classList.add('visible'));
+    }
+
+    function ensureVideoSource(video) {
+      if (video.dataset.loaded === '1') {
+        return;
+      }
+
+      video.src = video.dataset.src;
+      video.load();
+      video.dataset.loaded = '1';
+    }
+
     function startVideoSequence(wrap) {
       const video = wrap.querySelector('video');
       const poster = wrap.querySelector('.video-poster');
 
+      ensureVideoSource(video);
       video.currentTime = 0;
       poster.classList.remove('fade-out');
       poster.style.opacity = '1';
 
       wrap._timeout = setTimeout(() => {
-        poster.classList.add('fade-out');
-        const playPromise = video.play();
-        if (playPromise) {
-          playPromise.catch(() => {
-            // retry once after a short delay
-            setTimeout(() => video.play(), 200);
-          });
-        }
-      }, 4000);
+        whenVideoCanPlay(video, () => {
+          if (wrap.dataset.active !== '1') {
+            return;
+          }
+
+          poster.classList.add('fade-out');
+          playMutedVideo(video);
+        });
+      }, 2500);
     }
 
     function resetVideoSequence(wrap) {
@@ -818,23 +915,26 @@
       poster.style.opacity = '1';
     }
 
-    const videoObserver = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        const wrap = entry.target;
-        if (entry.isIntersecting && !wrap.dataset.active) {
-          wrap.dataset.active = '1';
-          startVideoSequence(wrap);
-        } else if (!entry.isIntersecting) {
-          resetVideoSequence(wrap);
-        }
-      });
-    }, { threshold: 0.3 });
+    if ('IntersectionObserver' in window) {
+      const videoObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          const wrap = entry.target;
+          if (entry.isIntersecting && !wrap.dataset.active) {
+            wrap.dataset.active = '1';
+            startVideoSequence(wrap);
+          } else if (!entry.isIntersecting) {
+            resetVideoSequence(wrap);
+          }
+        });
+      }, { threshold: 0.3 });
 
-    document.querySelectorAll('.video-wrap').forEach(w => videoObserver.observe(w));
+      document.querySelectorAll('.video-wrap').forEach(w => videoObserver.observe(w));
+    } else {
+      document.querySelectorAll('.video-wrap').forEach(startVideoSequence);
+    }
 
-    // Start filmstrip when scrolled into view
     const filmstrip = document.getElementById('filmstrip');
-    if (filmstrip) {
+    if (filmstrip && 'IntersectionObserver' in window) {
       const filmstripObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
           if (entry.isIntersecting) {
@@ -850,6 +950,8 @@
       filmstrip.addEventListener('mouseleave', () => {
         filmstrip.style.animationPlayState = '';
       });
+    } else if (filmstrip) {
+      filmstrip.classList.add('running');
     }
   </script>
 
