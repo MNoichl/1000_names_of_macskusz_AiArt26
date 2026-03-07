@@ -1038,25 +1038,29 @@
       video.addEventListener('canplay', callback, { once: true });
     }
 
-    function hasEnoughBufferedVideo(video, requireFull = false) {
-      if (video.readyState >= HTMLMediaElement.HAVE_ENOUGH_DATA) {
-        return true;
-      }
-
+    function hasEnoughBufferedVideo(video, requireFull = false, minimumBufferSeconds = 2.5) {
       if (!video.buffered || video.buffered.length === 0) {
         return false;
       }
 
       const bufferedEnd = video.buffered.end(video.buffered.length - 1);
-      if (requireFull && Number.isFinite(video.duration)) {
+      if (requireFull) {
+        if (!Number.isFinite(video.duration) || video.duration <= 0) {
+          return false;
+        }
+
         return bufferedEnd >= video.duration - 0.25;
       }
 
-      return bufferedEnd - video.currentTime >= 2.5;
+      if (video.readyState >= HTMLMediaElement.HAVE_ENOUGH_DATA) {
+        return true;
+      }
+
+      return bufferedEnd - video.currentTime >= minimumBufferSeconds;
     }
 
-    function waitForVideoReady(video, callback, { requireFull = false, timeout = 5000 } = {}) {
-      if (hasEnoughBufferedVideo(video, requireFull)) {
+    function waitForVideoReady(video, callback, { requireFull = false, timeout = 5000, minimumBufferSeconds = 2.5 } = {}) {
+      if (hasEnoughBufferedVideo(video, requireFull, minimumBufferSeconds)) {
         callback();
         return;
       }
@@ -1065,7 +1069,7 @@
       let fallbackTimer = null;
 
       function cleanup() {
-        ['loadeddata', 'canplay', 'canplaythrough', 'progress'].forEach(eventName => {
+        ['loadedmetadata', 'loadeddata', 'canplay', 'canplaythrough', 'progress'].forEach(eventName => {
           video.removeEventListener(eventName, checkReady);
         });
 
@@ -1085,12 +1089,12 @@
       }
 
       function checkReady() {
-        if (hasEnoughBufferedVideo(video, requireFull)) {
+        if (hasEnoughBufferedVideo(video, requireFull, minimumBufferSeconds)) {
           finish();
         }
       }
 
-      ['loadeddata', 'canplay', 'canplaythrough', 'progress'].forEach(eventName => {
+      ['loadedmetadata', 'loadeddata', 'canplay', 'canplaythrough', 'progress'].forEach(eventName => {
         video.addEventListener(eventName, checkReady);
       });
 
@@ -1198,7 +1202,7 @@
         waitForVideoReady(video, () => {
           poster.classList.add('fade-out');
           playVideo(video);
-        }, { requireFull: true, timeout: 20000 });
+        }, { requireFull: true, timeout: 30000 });
       }
 
       function scheduleHeroVideo(delay) {
@@ -1401,7 +1405,7 @@
 
           poster.classList.add('fade-out');
           playVideo(video);
-        }, { requireFull: false, timeout: 9000 });
+        }, { requireFull: false, timeout: 12000, minimumBufferSeconds: 4.5 });
       }, 2500);
     }
 
