@@ -988,6 +988,10 @@
   <script>
     let soundUnlocked = false;
 
+    function isVideoActivelyPlaying(video) {
+      return !video.paused && !video.ended;
+    }
+
     function unlockVideoSound() {
       if (soundUnlocked) {
         return;
@@ -995,14 +999,9 @@
 
       soundUnlocked = true;
       document.querySelectorAll('video').forEach(video => {
-        video.defaultMuted = false;
-
-        if (!video.paused || video.currentTime > 0) {
+        if (isVideoActivelyPlaying(video)) {
           playVideo(video);
-          return;
         }
-
-        video.muted = false;
       });
     }
 
