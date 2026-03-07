@@ -10,6 +10,7 @@
 #      The hero poster gets a smaller baseline preview to avoid partial-image flashes
 #   3. Creates tiny blurred thumbnails (<name>.thumb.jpg) for progressive loading
 #   4. Re-encodes videos with H.264 + faststart for browser playback
+#      The hero clip keeps a higher-resolution profile than the section loops
 #   5. Skips unchanged files on reruns by storing ignored hash sidecars
 #
 # Safe to re-run. Add new files to assets/ and run again.
@@ -30,6 +31,9 @@ VIDEO_MAX_WIDTH=1600
 VIDEO_MAX_HEIGHT=900
 VIDEO_CRF=25
 VIDEO_PRESET=slow
+HERO_VIDEO_MAX_WIDTH=1920
+HERO_VIDEO_MAX_HEIGHT=1080
+HERO_VIDEO_CRF=23
 
 GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
@@ -186,13 +190,22 @@ optimize_image() {
 
 optimize_video() {
   local src="$1"
-  local base tmp size_before size_after
+  local base tmp size_before size_after video_max_width video_max_height video_crf
   base="${src%.*}"
   tmp="${base}.tmp.mp4"
+  video_max_width="$VIDEO_MAX_WIDTH"
+  video_max_height="$VIDEO_MAX_HEIGHT"
+  video_crf="$VIDEO_CRF"
 
   if is_current "$base" "$src" "$src"; then
     log "Skipping video: ${src#./}"
     return
+  fi
+
+  if [[ "$base" == "./img6/video_2" ]]; then
+    video_max_width="$HERO_VIDEO_MAX_WIDTH"
+    video_max_height="$HERO_VIDEO_MAX_HEIGHT"
+    video_crf="$HERO_VIDEO_CRF"
   fi
 
   size_before="$(file_size_bytes "$src")"
@@ -200,11 +213,11 @@ optimize_video() {
 
   ffmpeg -y -i "$src" \
     -c:v libx264 \
-    -crf "$VIDEO_CRF" \
+    -crf "$video_crf" \
     -preset "$VIDEO_PRESET" \
     -movflags +faststart \
     -pix_fmt yuv420p \
-    -vf "scale='min(${VIDEO_MAX_WIDTH},iw)':'min(${VIDEO_MAX_HEIGHT},ih)':force_original_aspect_ratio=decrease" \
+    -vf "scale='min(${video_max_width},iw)':'min(${video_max_height},ih)':force_original_aspect_ratio=decrease" \
     -an \
     "$tmp" >/dev/null 2>&1
 
