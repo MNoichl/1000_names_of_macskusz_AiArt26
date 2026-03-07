@@ -7,6 +7,7 @@
 # What it does:
 #   1. Converts images to progressive JPEGs (quality 92, max 2200px)
 #   2. Creates crisp intermediate JPEGs (<name>.small.jpg) for quick display
+#      The hero poster gets a smaller baseline preview to avoid partial-image flashes
 #   3. Creates tiny blurred thumbnails (<name>.thumb.jpg) for progressive loading
 #   4. Re-encodes videos with H.264 + faststart for browser playback
 #   5. Skips unchanged files on reruns by storing ignored hash sidecars
@@ -21,6 +22,8 @@ IMAGE_MAX_DIM=2200
 IMAGE_QUALITY=92
 SMALL_MAX_DIM=1200
 SMALL_QUALITY=86
+HERO_PREVIEW_MAX_DIM=900
+HERO_PREVIEW_QUALITY=82
 THUMB_MAX_DIM=96
 THUMB_QUALITY=38
 VIDEO_MAX_WIDTH=1600
@@ -107,6 +110,7 @@ optimize_image() {
   local src="$1"
   local ext lext base full_path small_path thumb_path
   local tmp_full tmp_small tmp_thumb old_size new_size
+  local small_max_dim small_quality small_interlace
   ext="${src##*.}"
   lext="$(echo "$ext" | tr '[:upper:]' '[:lower:]')"
   base="${src%.*}"
@@ -116,6 +120,9 @@ optimize_image() {
   tmp_full="${full_path}.tmp"
   tmp_small="${small_path}.tmp"
   tmp_thumb="${thumb_path}.tmp"
+  small_max_dim="$SMALL_MAX_DIM"
+  small_quality="$SMALL_QUALITY"
+  small_interlace="Plane"
 
   case "$lext" in
     jpg|jpeg|png|webp|tif|tiff|avif) ;;
@@ -130,6 +137,12 @@ optimize_image() {
     return
   fi
 
+  if [[ "$base" == "./img6/hero_poster" ]]; then
+    small_max_dim="$HERO_PREVIEW_MAX_DIM"
+    small_quality="$HERO_PREVIEW_QUALITY"
+    small_interlace="None"
+  fi
+
   old_size=0
   if [[ -f "$src" ]]; then
     old_size="$(file_size_bytes "$src")"
@@ -142,11 +155,11 @@ optimize_image() {
   mv "$tmp_full" "$full_path"
 
   magick "$full_path" \
-    -resize "${SMALL_MAX_DIM}x${SMALL_MAX_DIM}>" \
+    -resize "${small_max_dim}x${small_max_dim}>" \
     -colorspace sRGB \
     -sampling-factor 4:4:4 \
-    -interlace Plane \
-    -quality "$SMALL_QUALITY" \
+    -interlace "$small_interlace" \
+    -quality "$small_quality" \
     -strip \
     "$tmp_small"
   mv "$tmp_small" "$small_path"

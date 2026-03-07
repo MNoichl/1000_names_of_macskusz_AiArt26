@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
   <!-- Preload hero assets for instant playback -->
-  <link rel="preload" href="assets/img6/hero_poster.jpg" as="image">
+  <link rel="preload" href="assets/img6/hero_poster.small.jpg" as="image">
   <link rel="preload" href="assets/img6/video_2.mp4" as="video">
   <style>
     *, *::before, *::after {
@@ -554,7 +554,7 @@
   <section class="hero" id="top">
     <div class="hero-media">
       <div class="hero-poster" id="heroPoster">
-        <img src="assets/img6/hero_poster.jpg" alt="" fetchpriority="high" decoding="async">
+        <img src="assets/img6/hero_poster.small.jpg" data-full-src="assets/img6/hero_poster.jpg" alt="" fetchpriority="high" decoding="async">
       </div>
       <video id="heroVideo" src="assets/img6/video_2.mp4" muted playsinline preload="auto"></video>
       <div class="hero-blackout" id="heroBlackout"></div>
@@ -813,9 +813,13 @@
     // Hero landing sequence: poster -> video -> blackout -> title
     (function() {
       const poster = document.getElementById('heroPoster');
+      const posterImage = poster.querySelector('img');
       const video = document.getElementById('heroVideo');
       const blackout = document.getElementById('heroBlackout');
       const content = document.getElementById('heroContent');
+      const fullPosterSrc = posterImage.dataset.fullSrc;
+      let heroStarted = false;
+      let heroStartTimer = null;
       let revealed = false;
 
       function revealContent() {
@@ -830,17 +834,43 @@
         }, 1200);
       }
 
-      video.load();
+      function startHeroVideo() {
+        if (heroStarted) {
+          return;
+        }
 
-      setTimeout(() => {
+        heroStarted = true;
         whenVideoCanPlay(video, () => {
           poster.classList.add('fade-out');
           playMutedVideo(video);
         });
-      }, 1500);
+      }
+
+      function scheduleHeroVideo(delay) {
+        if (heroStarted || heroStartTimer !== null) {
+          return;
+        }
+
+        heroStartTimer = window.setTimeout(startHeroVideo, delay);
+      }
+
+      video.load();
+
+      preloadImageAsset(fullPosterSrc, (resolvedSrc) => {
+        if (heroStarted) {
+          return;
+        }
+
+        posterImage.src = resolvedSrc;
+        scheduleHeroVideo(2000);
+      });
+
+      window.setTimeout(() => {
+        scheduleHeroVideo(2000);
+      }, 4500);
 
       video.addEventListener('ended', revealContent);
-      setTimeout(revealContent, 9000);
+      setTimeout(revealContent, 15000);
     })();
 
     const deferredImages = document.querySelectorAll('img[data-src]');
