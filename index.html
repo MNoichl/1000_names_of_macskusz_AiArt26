@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>The Thousand Names of Macskusz</title>
+  <title>The Thousand Names of Macskusz — CVPR 2026 Proposal</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
@@ -173,6 +173,15 @@
       letter-spacing: 0.2em;
       text-transform: uppercase;
       color: var(--gray);
+      margin-bottom: 1rem;
+    }
+
+    .hero .hero-authors {
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--gray-light);
       margin-bottom: 3rem;
     }
 
@@ -229,6 +238,70 @@
 
     .text-block p + p {
       margin-top: 1.5rem;
+    }
+
+    .subsection {
+      margin-top: 5rem;
+    }
+
+    .subsection-label {
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--gray-dark);
+      margin-bottom: 1.25rem;
+      display: block;
+    }
+
+    .subsection h3 {
+      font-family: var(--font-serif);
+      font-weight: 300;
+      font-size: clamp(1.6rem, 2.5vw, 2.5rem);
+      line-height: 1.2;
+      margin-bottom: 1.5rem;
+    }
+
+    .meta-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 1rem;
+      margin-bottom: 3rem;
+    }
+
+    .meta-item {
+      border-top: 1px solid var(--gray-dark);
+      padding-top: 0.9rem;
+    }
+
+    .meta-item span {
+      display: block;
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--gray-dark);
+      margin-bottom: 0.4rem;
+    }
+
+    .meta-item strong {
+      display: block;
+      font-family: var(--font-serif);
+      font-weight: 400;
+      font-size: clamp(1.1rem, 1.6vw, 1.5rem);
+      color: var(--white);
+    }
+
+    .inline-link {
+      color: var(--white);
+      text-decoration: none;
+      border-bottom: 1px solid var(--gray-dark);
+      transition: border-color 0.3s ease, opacity 0.3s ease;
+    }
+
+    .inline-link:hover {
+      opacity: 0.7;
+      border-color: var(--gray-light);
     }
 
     /* ---- IMAGES ---- */
@@ -453,6 +526,26 @@
       visibility: hidden;
     }
 
+    .bio-grid {
+      align-items: start;
+      margin-bottom: 3rem;
+    }
+
+    .bio-card {
+      border-top: 1px solid var(--gray-dark);
+      padding-top: 1rem;
+      color: var(--gray-light);
+    }
+
+    .bio-card p + p {
+      margin-top: 1rem;
+    }
+
+    .closing-note {
+      font-style: italic;
+      color: var(--gray);
+    }
+
     /* ---- DIVIDERS ---- */
     .divider {
       width: 1px;
@@ -516,6 +609,10 @@
         columns: 2;
       }
 
+      .meta-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
       nav .nav-links {
         display: none;
       }
@@ -542,11 +639,10 @@
   <nav>
     <a href="#top">Macskusz</a>
     <div class="nav-links">
-      <a href="#origin">Origin</a>
-      <a href="#book">Book</a>
-      <a href="#names">Names</a>
-      <a href="#digital">Digital</a>
-      <a href="#exhibition">Exhibition</a>
+      <a href="#proposal">Proposal</a>
+      <a href="#history">History</a>
+      <a href="#world">World</a>
+      <a href="#about">About</a>
     </div>
   </nav>
 
@@ -561,80 +657,117 @@
     </div>
     <div class="hero-content" id="heroContent">
       <h1>The Thousand<br>Names of<br><em>Macskusz</em></h1>
-      <p class="subtitle">An Exhibition Proposal</p>
+      <p class="subtitle">Exhibition Proposal for CVPR 2026</p>
+      <p class="hero-authors">Veronika Szücs &amp; Maximilian Noichl</p>
       <span class="scroll-hint">Scroll</span>
     </div>
   </section>
 
   <div class="divider"></div>
 
-  <!-- SECTION 1 — ORIGIN -->
-  <section id="origin">
-    <span class="section-number fade-in">I &mdash; Origin</span>
-    <h2 class="fade-in">The First <em>Macskusz</em></h2>
+  <!-- SECTION 1 — PROPOSAL -->
+  <section id="proposal">
+    <span class="section-number fade-in">I &mdash; Exhibition Proposal</span>
+    <h2 class="fade-in">A Mini-Series for<br><em>CVPR 2026</em></h2>
     <div class="text-block fade-in">
-      <p>The original Macskusz is a nickname that Vero invented for Max in 2021. The name combines the Hungarian word <em>macska</em> (cat) with the Latin suffix <em>-us</em>.</p>
-      <p>The first illustration of Macskusz was created later that same year, around All Saints' Day, as a paper cutout. At the time, Vero had developed a strong interest in the Mexican craft tradition of <em>papel picado</em>.</p>
+      <p>For the exhibition, we propose presenting a mini-series of <em>3 × 3 avatars of Macskusz</em>, a mythical creature that appears in the hero sequence above in the form of an aphid. The avatars will be automatically regenerated three times per day during the conference: at <em>10:00 AM, 13:30 PM, and 17:00 PM Denver time</em>.</p>
+      <p>For the presentation, we require a screen displaying our website, where the current image will be shown in a repeating loop: the newly generated avatar appears, remains visible for five minutes, and then comes to life in a short animation of about ten seconds before the cycle begins again.</p>
     </div>
-    <div class="single-image fade-in">
-      <img class="deferred-img is-thumb" src="assets/img1/1.thumb.jpg" data-src="assets/img1/1.jpg" alt="The original Macskusz paper cutout" loading="lazy" decoding="async">
-      <p class="image-caption">The original Macskusz, 2021</p>
+    <div class="meta-grid fade-in">
+      <div class="meta-item">
+        <span>Format</span>
+        <strong>3 × 3 avatars</strong>
+      </div>
+      <div class="meta-item">
+        <span>Update I</span>
+        <strong>10:00 AM</strong>
+      </div>
+      <div class="meta-item">
+        <span>Update II</span>
+        <strong>13:30 PM</strong>
+      </div>
+      <div class="meta-item">
+        <span>Update III</span>
+        <strong>17:00 PM</strong>
+      </div>
+    </div>
+    <p class="subsection-label fade-in">Imgs. 6.1-2</p>
+    <div class="video-wrap fade-in">
+      <img class="video-poster deferred-img is-thumb" src="assets/img6/6.1.thumb.jpg" data-src="assets/img6/6.1.jpg" alt="Macskusz aphid poster frame" decoding="async">
+      <video class="delayed-video" data-src="assets/img6/6.2.mp4" loop muted playsinline preload="none"></video>
     </div>
   </section>
 
   <div class="divider"></div>
 
-  <!-- SECTION 2 — THE BOOK -->
-  <section id="book">
-    <span class="section-number fade-in">II &mdash; The Book</span>
-    <h2 class="fade-in">A Diary of<br><em>Paper & Scissors</em></h2>
+  <!-- SECTION 2 — HISTORY -->
+  <section id="history">
+    <span class="section-number fade-in">II &mdash; The History of the Macskusz Project</span>
+    <h2 class="fade-in">The History of<br><em>Macskusz</em></h2>
     <div class="text-block fade-in">
-      <p>This first Macskusz was followed by a series of cutouts made from magazine scraps, which were pasted into a specially made book that functioned much like a diary.</p>
+      <p>The creature called <em>Macskusz</em> emerged from the love language between Vero and Max and gradually took on a life of its own. It functions both as a mascot and as a form of documentation of their relationship, attempting to capture the experiences and moods of each day by allowing them to manifest, day after day, in a new entity.</p>
     </div>
-    <div class="grid-2 fade-in">
-      <img class="deferred-img is-thumb" src="assets/img2/2.1.thumb.jpg" data-src="assets/img2/2.1.jpg" alt="Book page 1" loading="lazy" decoding="async">
-      <img class="deferred-img is-thumb" src="assets/img2/2.2.thumb.jpg" data-src="assets/img2/2.2.jpg" alt="Book page 2" loading="lazy" decoding="async">
-      <img class="deferred-img is-thumb" src="assets/img2/2.3.thumb.jpg" data-src="assets/img2/2.3.jpg" alt="Book page 3" loading="lazy" decoding="async">
-      <img class="deferred-img is-thumb" src="assets/img2/2.4.thumb.jpg" data-src="assets/img2/2.4.jpg" alt="Book page 4" loading="lazy" decoding="async">
+
+    <div class="subsection">
+      <p class="subsection-label fade-in">Img. 1</p>
+      <h3 class="fade-in">The First <em>Macskusz</em></h3>
+      <div class="text-block fade-in">
+        <p>Originally, Macskusz was a nickname that Vero invented for Max in 2021. The name combines the Hungarian word <em>macska</em> (cat) with the Latin suffix <em>-us</em>. The first illustration of Macskusz was created later that same year, around All Saints' Day, as a paper cutout.</p>
+        <p>At the time, Vero had developed a strong interest in the Mexican craft tradition of <em>papel picado</em>, which shaped the first form the creature would take.</p>
+      </div>
+      <div class="single-image fade-in">
+        <img class="deferred-img is-thumb" src="assets/img1/1.thumb.jpg" data-src="assets/img1/1.jpg" alt="The original Macskusz paper cutout" loading="lazy" decoding="async">
+        <p class="image-caption">The original Macskusz, 2021</p>
+      </div>
+    </div>
+
+    <div class="subsection">
+      <p class="subsection-label fade-in">Imgs. 2.1-4</p>
+      <h3 class="fade-in">The Book as <em>Diary</em></h3>
+      <div class="text-block fade-in">
+        <p>This first Macskusz was followed by a series of cutouts made from magazine scraps, which were pasted into a special book that Vero crafted for this purpose and which, from that point onward, began to function much like a diary.</p>
+      </div>
+      <div class="grid-2 fade-in">
+        <img class="deferred-img is-thumb" src="assets/img2/2.1.thumb.jpg" data-src="assets/img2/2.1.jpg" alt="Book page 1" loading="lazy" decoding="async">
+        <img class="deferred-img is-thumb" src="assets/img2/2.2.thumb.jpg" data-src="assets/img2/2.2.jpg" alt="Book page 2" loading="lazy" decoding="async">
+        <img class="deferred-img is-thumb" src="assets/img2/2.3.thumb.jpg" data-src="assets/img2/2.3.jpg" alt="Book page 3" loading="lazy" decoding="async">
+        <img class="deferred-img is-thumb" src="assets/img2/2.4.thumb.jpg" data-src="assets/img2/2.4.jpg" alt="Book page 4" loading="lazy" decoding="async">
+      </div>
+    </div>
+
+    <div class="subsection">
+      <p class="subsection-label fade-in">Imgs. 3.1-9</p>
+      <h3 class="fade-in">The <em>Names</em></h3>
+      <div class="text-block fade-in">
+        <p>The individual Macskusz avatars, or "names," reflect different aspects of Max and Vero's relationship: shared experiences, arguments, and images drawn from the media they consumed together.</p>
+        <p>Over time, the avatars quickly drifted away from the original feline form. In some cases they are no longer creatures at all, but rather resemble personified natural forces or locations. Nevertheless, they remain clearly identifiable with specific events, such as baking a rainbow cake with Smarties, rescuing a hedgehog, or visiting Max's hometown of Ettenheim in Germany.</p>
+      </div>
+      <div class="grid-3 fade-in">
+        <img class="deferred-img is-thumb" src="assets/img3/3.1.thumb.jpg" data-src="assets/img3/3.1.jpg" alt="Macskusz avatar 1" loading="lazy" decoding="async">
+        <img class="deferred-img is-thumb" src="assets/img3/3.3.thumb.jpg" data-src="assets/img3/3.3.jpg" alt="Macskusz avatar 3" loading="lazy" decoding="async">
+        <img class="deferred-img is-thumb" src="assets/img3/3.4.thumb.jpg" data-src="assets/img3/3.4.jpg" alt="Macskusz avatar 4" loading="lazy" decoding="async">
+        <img class="deferred-img is-thumb" src="assets/img3/3.5.thumb.jpg" data-src="assets/img3/3.5.jpg" alt="Macskusz avatar 5" loading="lazy" decoding="async">
+        <img class="deferred-img is-thumb" src="assets/img3/3.6.thumb.jpg" data-src="assets/img3/3.6.jpg" alt="Macskusz avatar 6" loading="lazy" decoding="async">
+        <img class="deferred-img is-thumb" src="assets/img3/3.7.thumb.jpg" data-src="assets/img3/3.7.jpg" alt="Macskusz avatar 7" loading="lazy" decoding="async">
+        <img class="deferred-img is-thumb" src="assets/img3/3.9.thumb.jpg" data-src="assets/img3/3.9.jpg" alt="Macskusz avatar 9" loading="lazy" decoding="async">
+        <img class="deferred-img is-thumb" src="assets/img3/3.10.thumb.jpg" data-src="assets/img3/3.10.jpg" alt="Macskusz avatar 10" loading="lazy" decoding="async">
+        <img class="deferred-img is-thumb" src="assets/img3/3.11.thumb.jpg" data-src="assets/img3/3.11.jpg" alt="Macskusz avatar 11" loading="lazy" decoding="async">
+      </div>
+      <p class="image-caption fade-in">Selected paper-cut avatars from the book series, 2021</p>
     </div>
   </section>
 
   <div class="divider"></div>
 
-  <!-- SECTION 3 — THE NAMES -->
-  <section id="names">
-    <span class="section-number fade-in">III &mdash; The Names</span>
-    <h2 class="fade-in">Avatars &<br><em>Manifestations</em></h2>
+  <!-- SECTION 3 — THE WORLD -->
+  <section id="world">
+    <span class="section-number fade-in">III &mdash; The "Macskusization" of the World (2025/26)</span>
+    <h2 class="fade-in">The <em>Macskusization</em><br>of the World</h2>
     <div class="text-block fade-in">
-      <p>The individual Macskusz avatars, or "names," reflect different aspects of Max and Vero's relationship: shared experiences, arguments, and images drawn from the media they consumed together.</p>
-      <p>Over time, the avatars quickly drifted away from the original feline form. In some cases they are no longer creatures at all, but resemble natural forces or landscapes.</p>
+      <p>The paper-cut series was still limited to the pages of the book. Although the project concluded with image no. 76 in the same year, it was revived in 2025 when Max proposed recreating the process of the "Macskuszisation" of the world using AI.</p>
+      <p>To do so, we first scanned the whole physical book in high resolution and used low-rank adaptation fine-tuning to create a <em>FLUX.1-dev</em> image-generation model that outputs the precise style of the original paper cuts.</p>
     </div>
-    <div class="grid-3 fade-in">
-      <img class="deferred-img is-thumb" src="assets/img3/3.1.thumb.jpg" data-src="assets/img3/3.1.jpg" alt="Macskusz avatar 1" loading="lazy" decoding="async">
-      <img class="deferred-img is-thumb" src="assets/img3/3.3.thumb.jpg" data-src="assets/img3/3.3.jpg" alt="Macskusz avatar 3" loading="lazy" decoding="async">
-      <img class="deferred-img is-thumb" src="assets/img3/3.4.thumb.jpg" data-src="assets/img3/3.4.jpg" alt="Macskusz avatar 4" loading="lazy" decoding="async">
-      <img class="deferred-img is-thumb" src="assets/img3/3.5.thumb.jpg" data-src="assets/img3/3.5.jpg" alt="Macskusz avatar 5" loading="lazy" decoding="async">
-      <img class="deferred-img is-thumb" src="assets/img3/3.6.thumb.jpg" data-src="assets/img3/3.6.jpg" alt="Macskusz avatar 6" loading="lazy" decoding="async">
-      <img class="deferred-img is-thumb" src="assets/img3/3.7.thumb.jpg" data-src="assets/img3/3.7.jpg" alt="Macskusz avatar 7" loading="lazy" decoding="async">
-      <img class="deferred-img is-thumb" src="assets/img3/3.9.thumb.jpg" data-src="assets/img3/3.9.jpg" alt="Macskusz avatar 9" loading="lazy" decoding="async">
-      <img class="deferred-img is-thumb" src="assets/img3/3.10.thumb.jpg" data-src="assets/img3/3.10.jpg" alt="Macskusz avatar 10" loading="lazy" decoding="async">
-      <img class="deferred-img is-thumb" src="assets/img3/3.11.thumb.jpg" data-src="assets/img3/3.11.jpg" alt="Macskusz avatar 11" loading="lazy" decoding="async">
-    </div>
-    <p class="image-caption fade-in">Selected paper-cut avatars from the book series, 2021</p>
-  </section>
-
-  <div class="divider"></div>
-
-  <!-- SECTION 4 — MOLTIES (DIGITAL REVIVAL) -->
-  <section id="digital">
-    <span class="section-number fade-in">IV &mdash; Digital Revival</span>
-    <h2 class="fade-in"><em>Macskuszisation</em><br>of the World</h2>
-    <div class="text-block fade-in">
-      <p>The paper-cut series was still limited to the pages of the book. Although the project concluded with image no. 76 in the same year, it was revived in 2025 when Max proposed recreating the process of the "Macskuszisation" of the world using digital methods.</p>
-    </div>
-    <div class="fade-in" style="margin-bottom: 4rem;">
-      <img class="deferred-img is-thumb" src="assets/img4/workflow.thumb.jpg" data-src="assets/img4/workflow.jpg" alt="Workflow diagram" loading="lazy" decoding="async" style="width: 100%; display: block;">
-    </div>
+    <p class="subsection-label fade-in">Imgs. 4.1-...</p>
     <div class="filmstrip-container fade-in">
       <div class="filmstrip" id="filmstrip">
         <img class="deferred-img is-thumb" src="assets/img4/molty_01.thumb.jpg" data-src="assets/img4/molty_01.jpg" alt="Molty 1" loading="lazy" decoding="async">
@@ -672,18 +805,18 @@
         <span class="separator"></span>
       </div>
     </div>
-  </section>
-
-  <div class="divider"></div>
-
-  <!-- SECTION 5 — GENERATED AVATARS -->
-  <section>
-    <span class="section-number fade-in">V &mdash; Generated Avatars</span>
-    <h2 class="fade-in">A New <em>Name</em><br>Every Day</h2>
     <div class="text-block fade-in">
-      <p>The work consists of a series of images automatically generated each day. With every update, the images present the current daily version of an avatar of Macskusz &mdash; a mythical being that emerged from the love language between Max and Vero and gradually took on a life of its own.</p>
-      <p>It functions both as a mascot and as a form of documentation of their relationship, attempting to capture the experiences and moods of each day by allowing them to manifest, day after day, in a new entity.</p>
+      <p>We then built a pipeline. Each day we crawl the main news sites that Vero and Max read every morning. We then have an LLM simulate how we would have likely discussed the news items we would have found most interesting, based on an internal summary of our personalities.</p>
+      <p>Finally, the LLM comes up with a single targeted prompt for the image model to illustrate the essence of our day as we react to what's happening in the world. We create the image and then use it as the basis of an additional generation using Google's Veo 3.1 video model, so that the image of the day is first statically displayed and then suddenly jumps away, scuttles into the bushes, or takes flight.</p>
     </div>
+    <p class="subsection-label fade-in">Workflow</p>
+    <div class="fade-in" style="margin-bottom: 4rem;">
+      <img class="deferred-img is-thumb" src="assets/img4/workflow.thumb.jpg" data-src="assets/img4/workflow.jpg" alt="Workflow diagram" loading="lazy" decoding="async" style="width: 100%; display: block;">
+    </div>
+    <div class="text-block fade-in">
+      <p>Macskusz's "thousand names" were originally only a metaphor for its endless variability. With the revival of the project through artificial intelligence, we also began experimenting with having the model give <em>literary names</em> to each creation.</p>
+    </div>
+    <p class="subsection-label fade-in">Imgs. 5.1-12</p>
     <div class="masonry fade-in" id="namedMasonry">
       <img class="deferred-img is-thumb" src="assets/img5/gen_02.thumb.jpg" data-src="assets/img5/gen_02.jpg" alt="Generated avatar" loading="lazy" decoding="async">
       <img class="deferred-img is-thumb" src="assets/img5/gen_04.thumb.jpg" data-src="assets/img5/gen_04.jpg" alt="Generated avatar" loading="lazy" decoding="async">
@@ -698,27 +831,41 @@
       <img class="deferred-img is-thumb" src="assets/img5/gen_19.thumb.jpg" data-src="assets/img5/gen_19.jpg" alt="Generated avatar" loading="lazy" decoding="async">
       <img class="deferred-img is-thumb" src="assets/img5/gen_21.thumb.jpg" data-src="assets/img5/gen_21.jpg" alt="Generated avatar" loading="lazy" decoding="async">
     </div>
+    <div class="text-block fade-in">
+      <p>In the current computer-based workflow, the new avatars are shaped less by personally experienced moments and more by daily news and predefined aesthetic principles. They condense a wider diversity of information and thus become symbols of contemporary historical moments in a global context, which nevertheless still shape our everyday lives.</p>
+      <p class="closing-note">(Roland Barthes: the mythification of everyday life)</p>
+    </div>
   </section>
 
   <div class="divider"></div>
 
-  <!-- SECTION 6 — EXHIBITION -->
-  <section id="exhibition">
-    <span class="section-number fade-in">VI &mdash; The Exhibition</span>
-    <h2 class="fade-in">Exhibition<br><em>Proposal</em></h2>
-    <div class="text-block fade-in">
-      <p>For the exhibition, we propose presenting a mini-series of three Macskusz avatars. These avatars are newly generated each day and appear at noon (12:00 PM in Denver).</p>
-      <p>For the presentation, we require a screen displaying our website, where the current image will be shown.</p>
+  <!-- SECTION 4 — ABOUT -->
+  <section id="about">
+    <span class="section-number fade-in">IV &mdash; About Us</span>
+    <h2 class="fade-in">About<br><em>Us</em></h2>
+    <div class="grid-2 bio-grid fade-in">
+      <div class="bio-card">
+        <p class="subsection-label">Veronika Szücs</p>
+        <p>Veronika Szücs was born in Hungary and studied art history and Indology in Budapest, contextual painting at the Academy of Fine Arts Vienna, and comic and illustration at the Accademia di Belle Arti di Bologna.</p>
+        <p>She completed her studies with a graphic novel, a feminist adaptation of the classical Indian story <em>Nala and Damayanti</em>. She works on art books and comic projects including <em>Andersrum</em> (2020), <em>Zurück in die Zukunft</em> (2023), and <em>Cupcake &amp; Bejgli</em> (2025).</p>
+        <p><a class="inline-link" href="https://veronika-szuecs.com/" target="_blank" rel="noreferrer">veronika-szuecs.com</a></p>
+      </div>
+      <div class="bio-card">
+        <p class="subsection-label">Maximilian Noichl</p>
+        <p>Max Noichl is a philosopher of science. He works on the application of computational and AI methods in philosophy and is currently doing a PhD in philosophy at Utrecht University.</p>
+        <p>Previous works include a large, data-driven map of philosophy, a series of AI-illustrated accidental philosophical haikus, and other computational projects across philosophy and art.</p>
+        <p><a class="inline-link" href="https://www.maxnoichl.eu/full/zoom_final/index.html" target="_blank" rel="noreferrer">Map of philosophy</a><br><a class="inline-link" href="https://www.maxnoichl.eu/projects/philohaiku/" target="_blank" rel="noreferrer">Philohaiku</a><br><a class="inline-link" href="https://maxnoichl.eu/" target="_blank" rel="noreferrer">maxnoichl.eu</a></p>
+      </div>
     </div>
-    <div class="exhibit-videos fade-in">
-      <div class="video-wrap">
-        <img class="video-poster deferred-img is-thumb" src="assets/img6/6.3.thumb.jpg" data-src="assets/img6/6.3.jpg" alt="" decoding="async">
-        <video class="delayed-video" data-src="assets/img6/video_1.mp4" loop muted playsinline preload="none"></video>
-      </div>
-      <div class="video-wrap">
-        <img class="video-poster deferred-img is-thumb" src="assets/img6/6.1.thumb.jpg" data-src="assets/img6/6.1.jpg" alt="" decoding="async">
-        <video class="delayed-video" data-src="assets/img6/video_2.mp4" loop muted playsinline preload="none"></video>
-      </div>
+    <div class="text-block fade-in">
+      <p>We met in 2015 during our philosophy studies in Vienna and now live and work together in Bamberg, Germany.</p>
+      <p>Thank you very much for taking the time to read our proposal and for considering our submission for the Art Exhibition at CVPR 2026 in Denver.</p>
+      <p>See you soon,<br><em>Vero &amp; Max</em></p>
+    </div>
+    <p class="subsection-label fade-in">Imgs. 6.3-4</p>
+    <div class="video-wrap fade-in">
+      <img class="video-poster deferred-img is-thumb" src="assets/img6/6.3.thumb.jpg" data-src="assets/img6/6.3.jpg" alt="Macskusz closing poster frame" decoding="async">
+      <video class="delayed-video" data-src="assets/img6/6.4.mp4" loop muted playsinline preload="none"></video>
     </div>
   </section>
 
@@ -727,7 +874,7 @@
   <!-- FOOTER -->
   <footer>
     <h2 class="fade-in"><em>Macskusz</em></h2>
-    <p class="colophon fade-in">Max & Vero &mdash; Denver, 2025</p>
+    <p class="colophon fade-in">Max & Vero &mdash; Denver, 2026</p>
   </footer>
 
   <script>
