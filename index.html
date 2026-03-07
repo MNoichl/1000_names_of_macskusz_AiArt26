@@ -503,6 +503,11 @@
       overflow: hidden;
     }
 
+    .video-figure {
+      max-width: 860px;
+      margin: 0 auto;
+    }
+
     .video-wrap video {
       width: 100%;
       display: block;
@@ -524,6 +529,17 @@
     .video-wrap .video-poster.fade-out {
       opacity: 0;
       visibility: hidden;
+    }
+
+    .video-meta {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-top: 0.85rem;
+      color: var(--gray-dark);
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      letter-spacing: 0.1em;
     }
 
     .bio-grid {
@@ -620,6 +636,11 @@
       .filmstrip img {
         height: 150px;
       }
+
+      .video-meta {
+        flex-direction: column;
+        gap: 0.3rem;
+      }
     }
 
     @media (max-width: 480px) {
@@ -670,7 +691,7 @@
     <span class="section-number fade-in">I &mdash; Exhibition Proposal</span>
     <h2 class="fade-in">A Mini-Series for<br><em>CVPR 2026</em></h2>
     <div class="text-block fade-in">
-      <p>For the exhibition, we propose presenting a mini-series of <em>3 × 3 avatars of Macskusz</em>, a mythical creature that appears in the video above in the form of an aphid. The avatars will be automatically regenerated three times per day during the conference: at <em>10:00 AM, 13:30 PM, and 17:00 PM Denver time</em>.</p>
+      <p>For the exhibition, we propose presenting a mini-series of <em>3 × 3 avatars of Macskusz</em>, a mythical creature. In the video above, Macskusz appears in the form of an aphid, it's form for the 2.1.2026, which called itself "Kis Kobaltcsilag". The avatars will be automatically regenerated three times per day on the 5th, 6th, and 7th of June, based on what is happening in the world on that day.</p>
       <p>For the presentation, we require a screen displaying our website, where the current image will be shown in a repeating loop: the newly generated avatar appears, remains visible for five minutes, and then comes to life in a short animation of about ten seconds before the cycle begins again.</p>
     </div>
     <div class="meta-grid fade-in">
@@ -692,9 +713,15 @@
       </div>
     </div>
     <p class="subsection-label fade-in">Imgs. 6.1-2</p>
-    <div class="video-wrap fade-in">
-      <img class="video-poster deferred-img is-thumb" src="assets/img6/6.1.thumb.jpg" data-src="assets/img6/6.1.jpg" alt="Macskusz aphid poster frame" decoding="async">
-      <video class="delayed-video" data-src="assets/img6/6.2.mp4" loop muted playsinline preload="none"></video>
+    <div class="video-figure fade-in">
+      <div class="video-wrap">
+        <img class="video-poster deferred-img is-thumb" src="assets/img6/6.1.thumb.jpg" data-src="assets/img6/6.1.jpg" alt="Macskusz aphid poster frame" decoding="async">
+        <video class="delayed-video" data-src="assets/img6/6.2.mp4" loop muted playsinline preload="none"></video>
+      </div>
+      <div class="video-meta">
+        <span>Tichy Mimik</span>
+        <span>25.11.2025</span>
+      </div>
     </div>
   </section>
 
@@ -862,9 +889,15 @@
       <p>See you soon,<br><em>Vero &amp; Max</em></p>
     </div>
     <p class="subsection-label fade-in">Imgs. 6.3-4</p>
-    <div class="video-wrap fade-in">
-      <img class="video-poster deferred-img is-thumb" src="assets/img6/6.3.thumb.jpg" data-src="assets/img6/6.3.jpg" alt="Macskusz closing poster frame" decoding="async">
-      <video class="delayed-video" data-src="assets/img6/6.4.mp4" loop muted playsinline preload="none"></video>
+    <div class="video-figure fade-in">
+      <div class="video-wrap">
+        <img class="video-poster deferred-img is-thumb" src="assets/img6/6.3.thumb.jpg" data-src="assets/img6/6.3.jpg" alt="Macskusz closing poster frame" decoding="async">
+        <video class="delayed-video" data-src="assets/img6/6.4.mp4" loop muted playsinline preload="none"></video>
+      </div>
+      <div class="video-meta">
+        <span>This is, um</span>
+        <span>19.11.2025</span>
+      </div>
     </div>
   </section>
 
