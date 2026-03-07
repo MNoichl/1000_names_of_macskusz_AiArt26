@@ -1043,16 +1043,16 @@
     // Name labels for generated avatars
     const avatarNames = {
       "gen_02.jpg": "Belgrade Hotelghost",
-      "gen_04.jpg": "Hornet-pulp Cat-paws",
-      "gen_06.jpg": "Cosmo Babushka",
-      "gen_07.jpg": "Rotor-teeth Embrace",
-      "gen_08.jpg": "Tichy Mimik",
-      "gen_09.jpg": "Sunmouth Lemony",
-      "gen_12.jpg": "Pánik Störerli",
-      "gen_13.jpg": "Small Liefox",
-      "gen_15.jpg": "Watchful Greasy Mirror",
-      "gen_16.jpg": "Hazard-orange Woman-goose",
-      "gen_19.jpg": "Diamond Long",
+      "gen_04.jpg": "Rotor-teeth Embrace",
+      "gen_06.jpg": "Pánik Störerli",
+      "gen_07.jpg": "Hazard-orange Woman-goose",
+      "gen_08.jpg": "Hornet-pulp Cat-paws",
+      "gen_09.jpg": "Tichy Mimik",
+      "gen_12.jpg": "Small Liefox",
+      "gen_13.jpg": " Diamond Long",
+      "gen_15.jpg": "Cosmo Babushka",
+      "gen_16.jpg": "Sunmouth Lemony",
+      "gen_19.jpg": "Watchful Greasy Mirror",
       "gen_21.jpg": "Peanut Rumpelchen"
     };
 
@@ -1068,7 +1068,7 @@
           wrap.appendChild(img);
           const label = document.createElement('span');
           label.className = 'name-label';
-          label.textContent = name;
+          label.textContent = name.trim();
           wrap.appendChild(label);
         }
       });
