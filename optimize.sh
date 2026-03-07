@@ -11,7 +11,8 @@
 #   3. Creates tiny blurred thumbnails (<name>.thumb.jpg) for progressive loading
 #   4. Rebuilds videos for browser playback
 #      The hero clip keeps a higher-resolution re-encode profile,
-#      while compatible section clips preserve their original H.264 video stream
+#      compatible section clips preserve their original H.264 video stream,
+#      and used site videos keep their audio tracks
 #   5. Skips unchanged files on reruns by storing ignored hash sidecars
 #
 # Safe to re-run. Add new files to assets/ and run again.
@@ -32,9 +33,13 @@ VIDEO_MAX_WIDTH=1600
 VIDEO_MAX_HEIGHT=900
 VIDEO_CRF=23
 VIDEO_PRESET=slow
+VIDEO_AUDIO_BITRATE=160k
 HERO_VIDEO_MAX_WIDTH=1920
 HERO_VIDEO_MAX_HEIGHT=1080
 HERO_VIDEO_CRF=23
+TICHY_VIDEO_MAX_WIDTH=1280
+TICHY_VIDEO_MAX_HEIGHT=720
+TICHY_VIDEO_CRF=23
 
 GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
@@ -208,6 +213,10 @@ optimize_video() {
     video_max_width="$HERO_VIDEO_MAX_WIDTH"
     video_max_height="$HERO_VIDEO_MAX_HEIGHT"
     video_crf="$HERO_VIDEO_CRF"
+  elif [[ "$base" == "./img6/tichy_dig_video" ]]; then
+    video_max_width="$TICHY_VIDEO_MAX_WIDTH"
+    video_max_height="$TICHY_VIDEO_MAX_HEIGHT"
+    video_crf="$TICHY_VIDEO_CRF"
   fi
 
   size_before="$(file_size_bytes "$src")"
@@ -243,24 +252,30 @@ optimize_video() {
   )"
 
   if [[ "$base" != "./img6/video_2" ]] \
+    && [[ "$base" != "./img6/tichy_dig_video" ]] \
     && [[ "$codec_name" == "h264" ]] \
     && [[ "$pix_fmt" == "yuv420p" ]] \
     && (( width <= video_max_width )) \
     && (( height <= video_max_height )); then
     ffmpeg -nostdin -y -i "$src" \
       -map 0:v:0 \
+      -map '0:a?' \
       -c:v copy \
+      -c:a copy \
       -movflags +faststart \
       "$tmp" >/dev/null 2>&1
   else
     ffmpeg -nostdin -y -i "$src" \
+      -map 0:v:0 \
+      -map '0:a?' \
       -c:v libx264 \
       -crf "$video_crf" \
       -preset "$VIDEO_PRESET" \
       -movflags +faststart \
       -pix_fmt yuv420p \
       -vf "scale='min(${video_max_width},iw)':'min(${video_max_height},ih)':force_original_aspect_ratio=decrease" \
-      -an \
+      -c:a aac \
+      -b:a "$VIDEO_AUDIO_BITRATE" \
       "$tmp" >/dev/null 2>&1
   fi
 
@@ -275,6 +290,7 @@ while IFS= read -r -d '' file; do
 done < <(
   find . -type f \
     \( -iname "*.png" -o -iname "*.jpg" -o -iname "*.jpeg" -o -iname "*.webp" -o -iname "*.tif" -o -iname "*.tiff" -o -iname "*.avif" \) \
+    ! -path "*/reference/*" \
     ! -name "*.small.jpg" \
     ! -name "*.thumb.jpg" \
     ! -name "*.asset.sha256" \
@@ -284,7 +300,7 @@ done < <(
 while IFS= read -r -d '' file; do
   optimize_video "$file"
 done < <(
-  find . -type f -iname "*.mp4" -print0 | sort -z
+  find . -type f -iname "*.mp4" ! -path "*/reference/*" -print0 | sort -z
 )
 
 echo ""

@@ -673,7 +673,7 @@
       <div class="hero-poster" id="heroPoster">
         <img src="assets/img6/hero_poster.small.jpg" data-full-src="assets/img6/hero_poster.jpg" alt="" fetchpriority="high" decoding="async">
       </div>
-      <video id="heroVideo" src="assets/img6/video_2.mp4" muted playsinline preload="auto"></video>
+      <video id="heroVideo" src="assets/img6/video_2.mp4" playsinline preload="auto"></video>
       <div class="hero-blackout" id="heroBlackout"></div>
     </div>
     <div class="hero-content" id="heroContent">
@@ -714,8 +714,8 @@
     </div>
     <div class="video-figure fade-in">
       <div class="video-wrap">
-        <img class="video-poster deferred-img is-thumb" src="assets/img6/6.1.thumb.jpg" data-src="assets/img6/6.1.jpg" alt="Macskusz aphid poster frame" decoding="async">
-        <video class="delayed-video" data-src="assets/img6/6.2.mp4" loop muted playsinline preload="none"></video>
+        <img class="video-poster deferred-img is-thumb" src="assets/img6/tichy_dig.thumb.jpg" data-src="assets/img6/tichy_dig.jpg" alt="Tichy Mimik poster frame" decoding="async">
+        <video class="delayed-video" data-src="assets/img6/tichy_dig_video.mp4" loop playsinline preload="none"></video>
       </div>
       <div class="video-meta">
         <span>Tichy Mimik</span>
@@ -854,7 +854,6 @@
     </div>
     <div class="text-block fade-in">
       <p>In the current computer-based workflow, the new avatars are shaped less by personally experienced moments and more by daily news and predefined aesthetic principles. They condense a wider diversity of information and thus become symbols of contemporary historical moments in a global context, which nevertheless still shape our everyday lives.</p>
-      <p class="closing-note">(Roland Barthes: the mythification of everyday life)</p>
     </div>
   </section>
 
@@ -885,7 +884,7 @@
     <div class="video-figure fade-in">
       <div class="video-wrap">
         <img class="video-poster deferred-img is-thumb" src="assets/img6/6.3.thumb.jpg" data-src="assets/img6/6.3.jpg" alt="Macskusz closing poster frame" decoding="async">
-        <video class="delayed-video" data-src="assets/img6/video_1.mp4" loop muted playsinline preload="none"></video>
+        <video class="delayed-video" data-src="assets/img6/video_1.mp4" loop playsinline preload="none"></video>
       </div>
       <div class="video-meta">
         <span>This is, um</span>
@@ -903,10 +902,36 @@
   </footer>
 
   <script>
-    function playMutedVideo(video) {
+    let soundUnlocked = false;
+
+    function unlockVideoSound() {
+      soundUnlocked = true;
+      document.querySelectorAll('video').forEach(video => {
+        video.muted = false;
+        if (!video.paused) {
+          const playPromise = video.play();
+          if (playPromise) {
+            playPromise.catch(() => {});
+          }
+        }
+      });
+    }
+
+    window.addEventListener('pointerdown', unlockVideoSound, { once: true });
+    window.addEventListener('keydown', unlockVideoSound, { once: true });
+
+    function playVideo(video) {
+      video.volume = 1;
+      video.muted = false;
       const playPromise = video.play();
       if (playPromise) {
-        playPromise.catch(() => {});
+        playPromise.catch(() => {
+          video.muted = true;
+          const fallbackPlay = video.play();
+          if (fallbackPlay) {
+            fallbackPlay.catch(() => {});
+          }
+        });
       }
     }
 
@@ -1014,7 +1039,7 @@
         heroStarted = true;
         whenVideoCanPlay(video, () => {
           poster.classList.add('fade-out');
-          playMutedVideo(video);
+          playVideo(video);
         });
       }
 
@@ -1143,7 +1168,7 @@
           }
 
           poster.classList.add('fade-out');
-          playMutedVideo(video);
+          playVideo(video);
         });
       }, 2500);
     }
