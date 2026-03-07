@@ -1205,6 +1205,7 @@
 
         heroPlaybackStarted = true;
         poster.classList.add('fade-out');
+        warmDelayedVideos();
 
         const remainingMs = Number.isFinite(video.duration) && video.duration > 0
           ? Math.max(2500, ((video.duration - video.currentTime) * 1000) + 800)
@@ -1390,6 +1391,8 @@
       document.querySelectorAll('.fade-in').forEach(el => el.classList.add('visible'));
     }
 
+    let delayedVideosWarmed = false;
+
     function ensureVideoSource(video) {
       if (video.dataset.loaded === '1') {
         return;
@@ -1401,12 +1404,18 @@
       video.dataset.loaded = '1';
     }
 
-    // Warm the section clips immediately so their posters can hold until buffered video is ready.
-    document.querySelectorAll('.delayed-video').forEach((video, index) => {
-      window.setTimeout(() => {
-        ensureVideoSource(video);
-      }, 180 * (index + 1));
-    });
+    function warmDelayedVideos() {
+      if (delayedVideosWarmed) {
+        return;
+      }
+
+      delayedVideosWarmed = true;
+      document.querySelectorAll('.delayed-video').forEach((video, index) => {
+        window.setTimeout(() => {
+          ensureVideoSource(video);
+        }, 180 * (index + 1));
+      });
+    }
 
     function startVideoSequence(wrap) {
       const video = wrap.querySelector('video');
