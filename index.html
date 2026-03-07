@@ -1195,6 +1195,7 @@
         blackout.classList.add('active');
         setTimeout(() => {
           content.classList.add('visible');
+          warmDeferredImages();
         }, 1200);
       }
 
@@ -1254,6 +1255,21 @@
     })();
 
     const deferredImages = document.querySelectorAll('img[data-src]');
+    let deferredImagesWarmed = false;
+
+    function warmDeferredImages() {
+      if (deferredImagesWarmed) {
+        return;
+      }
+
+      deferredImagesWarmed = true;
+      deferredImages.forEach((img, index) => {
+        window.setTimeout(() => {
+          loadDeferredImage(img);
+        }, 45 * index);
+      });
+    }
+
     if ('IntersectionObserver' in window) {
       const imageObserver = new IntersectionObserver((entries, observer) => {
         entries.forEach(entry => {
