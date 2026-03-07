@@ -1179,6 +1179,8 @@
       const fullPosterSrc = posterImage.dataset.fullSrc;
       let heroStarted = false;
       let heroStartTimer = null;
+      let heroRevealTimer = null;
+      let heroPlaybackStarted = false;
       let revealed = false;
 
       function revealContent() {
@@ -1187,10 +1189,28 @@
         }
 
         revealed = true;
+        if (heroRevealTimer !== null) {
+          window.clearTimeout(heroRevealTimer);
+        }
         blackout.classList.add('active');
         setTimeout(() => {
           content.classList.add('visible');
         }, 1200);
+      }
+
+      function markHeroPlaybackStarted() {
+        if (heroPlaybackStarted) {
+          return;
+        }
+
+        heroPlaybackStarted = true;
+        poster.classList.add('fade-out');
+
+        const remainingMs = Number.isFinite(video.duration) && video.duration > 0
+          ? Math.max(2500, ((video.duration - video.currentTime) * 1000) + 800)
+          : 10000;
+
+        heroRevealTimer = window.setTimeout(revealContent, Math.min(15000, remainingMs));
       }
 
       function startHeroVideo() {
@@ -1200,7 +1220,6 @@
 
         heroStarted = true;
         waitForVideoReady(video, () => {
-          poster.classList.add('fade-out');
           playVideo(video);
         }, { requireFull: true, timeout: 30000 });
       }
@@ -1228,8 +1247,9 @@
         scheduleHeroVideo(2000);
       }, 4500);
 
+      video.addEventListener('playing', markHeroPlaybackStarted);
+      video.addEventListener('timeupdate', markHeroPlaybackStarted, { once: true });
       video.addEventListener('ended', revealContent);
-      setTimeout(revealContent, 15000);
     })();
 
     const deferredImages = document.querySelectorAll('img[data-src]');
